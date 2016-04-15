@@ -32,6 +32,9 @@ namespace Three_Thing_Game
         public MenuClass()
         {
             graphics = new GraphicsDeviceManager(this);
+            graphics.IsFullScreen = false;
+            graphics.PreferredBackBufferHeight = 720;
+            graphics.PreferredBackBufferWidth = 1280;
             Content.RootDirectory = "Content";
         }
 
@@ -43,16 +46,16 @@ namespace Three_Thing_Game
 
 
         protected override void LoadContent()
-        {
+        {            
             sectX = screenWidth / 16;
             sectY = screenHeight / 16;
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             backgroundT = Content.Load<Texture2D>("blackSquare");
-            titleT = Content.Load<Texture2D>("blueSquare");
-            startT = Content.Load<Texture2D>("blueSquare");
-            optionsT = Content.Load<Texture2D>("blueSquare");
-            quitT = Content.Load<Texture2D>("blueSquare");
+            titleT = Content.Load<Texture2D>("title");
+            startT = Content.Load<Texture2D>("start");
+            optionsT = Content.Load<Texture2D>("options");
+            quitT = Content.Load<Texture2D>("quit");
 
             background = new Sprite(backgroundT, new Vector2(0, 0), screenWidth, screenHeight);
             title = new Sprite(titleT, new Vector2(0, -6 * sectY), 6 * sectX, 3 * sectY);
@@ -89,6 +92,7 @@ namespace Three_Thing_Game
                     // TODO - start game
                     using (var game = new GameClass())
                         game.Run();
+                    Exit();
                 }
                 else if (option == 1)
                 {
