@@ -19,6 +19,8 @@ namespace Three_Thing_Game
         private Sprite background, title, start, options, quit;
         private Texture2D backgroundT, titleT, startT, optionsT, quitT;
 
+        private static Color select = Color.Red;
+
         //temp
         private int screenWidth = 1280;
         private int screenHeight = 720;
@@ -34,8 +36,8 @@ namespace Three_Thing_Game
         {
             graphics = new GraphicsDeviceManager(this);
             graphics.IsFullScreen = false;
-            graphics.PreferredBackBufferHeight = 720;
-            graphics.PreferredBackBufferWidth = 1280;
+            graphics.PreferredBackBufferHeight = screenHeight;
+            graphics.PreferredBackBufferWidth = screenWidth;
             Content.RootDirectory = "Content";
         }
 
@@ -53,7 +55,7 @@ namespace Three_Thing_Game
             sectY = screenHeight / 16;
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            backgroundT = Content.Load<Texture2D>("blackSquare");
+            backgroundT = Content.Load<Texture2D>("background");
             titleT = Content.Load<Texture2D>("title");
             startT = Content.Load<Texture2D>("start");
             optionsT = Content.Load<Texture2D>("options");
@@ -127,14 +129,15 @@ namespace Three_Thing_Game
                 }
             }
 
+            
             _previousKeyboardState = _currentKeyboardState;
             _previousGamepadState = _currentGamepadState;
             start.Colour = Color.White;
             options.Colour = Color.White;
             quit.Colour = Color.White;
-            if (option == 0) { start.Colour = Color.Green; }
-            if (option == 1) { options.Colour = Color.Green; }
-            if (option == 2) { quit.Colour = Color.Green; }
+            if (option == 0) { start.Colour = select ; }
+            if (option == 1) { options.Colour = select; }
+            if (option == 2) { quit.Colour = select; }
             base.Update(gameTime);
         }
 
