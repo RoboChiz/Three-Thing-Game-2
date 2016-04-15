@@ -17,13 +17,17 @@ namespace Three_Thing_Game
 
         Camera camera;
 
-        Texture2D block;
+        Texture2D block, player;
         int[,] map;
         List<Sprite> mapSprites;
 
         public GameClass()
         {
             graphics = new GraphicsDeviceManager(this);
+            graphics.IsFullScreen = false;
+            graphics.PreferredBackBufferHeight = 720;
+            graphics.PreferredBackBufferWidth = 1280;
+
             Content.RootDirectory = "Content";
         }
 
@@ -37,7 +41,7 @@ namespace Three_Thing_Game
         {
             // TODO: Add your initialization logic here
 
-            camera = new Camera(new Vector2(0, 0), 50f);
+            camera = new Camera(new Vector2(0, 0), 30f);
 
             map = new int[,] { 
             { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 }, 
@@ -72,6 +76,7 @@ namespace Three_Thing_Game
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             block = Content.Load<Texture2D>("TestBlock");
+            player = Content.Load<Texture2D>("Professor");
 
             foreach (Sprite sprite in mapSprites)
             {
@@ -115,7 +120,7 @@ namespace Three_Thing_Game
 
             spriteBatch.Begin(SpriteSortMode.BackToFront,
                       BlendState.AlphaBlend,
-                      null,
+                      SamplerState.PointClamp,
                       null,
                       null,
                       null,

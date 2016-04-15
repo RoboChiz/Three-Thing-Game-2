@@ -89,6 +89,16 @@ namespace RobsSprite
              set { colour = value; }
          }
 
+        public Sprite()
+        {
+            spriteTexture = null;
+            Position = Vector2.Zero;
+            Width = 1;
+            Height = 1;
+            colour = Color.White;
+        }
+
+
         public Sprite(Texture2D textureVal, Vector2 pos, int widthVal, int heightVal)
         {
             spriteTexture = textureVal;
