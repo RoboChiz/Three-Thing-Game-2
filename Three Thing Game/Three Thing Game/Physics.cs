@@ -91,20 +91,21 @@ namespace RobsPhysics
                     rb.Position += rb.Velocity * deltaTime;
 
                     //Do Map Collisions
-                    for (int x = -1; x < 1; x++)
+                    int checkSize = rb.height + 1;
+                    for (int y = -checkSize; y < checkSize; y++)
                     {
-                        for (int y = -1; y < 1; y++)
+                        for (int x = -checkSize; x < checkSize; x++)
                         {
                             int xPos = (int)rb.Position.X + x;
                             int yPos = (int)rb.Position.Y + y;
+                            int xRB = (int)rb.Position.X;
 
                             //Check that block is inside of Check Range
-                            if (xPos > 0 && xPos + x < colliderMap.GetLength(0) && yPos > 0 && yPos < colliderMap.GetLength(1))
+                            if (xPos >= 0 && xPos + x < colliderMap.GetLength(1) && yPos >= 0 && yPos < colliderMap.GetLength(0))
                             {
-                                if (colliderMap[xPos, yPos] > 0)
+                                if (colliderMap[yPos, xPos] > 0)
                                 {
-                                    //Check top of Square
-                                    if (rb.Position.Y + (rb.height / 2) > yPos)
+                                    if (xPos == xRB && rb.Position.Y + 1.4f >= yPos)
                                     {
                                         ResolveCollision(rb, new Vector2(0, -1));
                                         rb.Position = lastPos;
