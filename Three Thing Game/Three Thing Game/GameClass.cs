@@ -111,6 +111,8 @@ namespace Three_Thing_Game
 
             float deltaTime = (gameTime.ElapsedGameTime.Milliseconds / 1000f);
 
+            camera._pos = Vector2.Lerp(camera._pos, player.Position * 10f, deltaTime * 2f);
+
             player.Update(deltaTime);
 
             PhysicsManager.Step(deltaTime);

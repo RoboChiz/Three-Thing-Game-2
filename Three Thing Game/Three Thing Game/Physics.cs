@@ -114,6 +114,10 @@ namespace RobsPhysics
                                         ResolveCollision(rb, new Vector2(0, -1));
                                         rb.Position = new Vector2(rb.Position.X,lastPos.Y);
 
+                                        Player person = rb as Player;
+                                        if (person != null)
+                                            person.isFalling = false;
+
                                     }
 
                                     //Check Right Wall

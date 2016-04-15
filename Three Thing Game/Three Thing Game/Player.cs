@@ -14,7 +14,7 @@ namespace Three_Thing_Game
     {
 
         int currentFrame = 0, maxframe = 9;
-        private float playerSpeed = 200f, jumpForce = 200f;
+        private float playerSpeed = 200f, jumpForce = 500f;
         public bool flipImage;
         public bool isFalling = false;
 
@@ -68,6 +68,8 @@ namespace Three_Thing_Game
 
             if(!isFalling && verti)
                 AddForce(new Vector2(0,-jumpForce));
+
+            isFalling = true;
 
             if (hori < 0)
                 flipImage = true;
