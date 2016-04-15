@@ -20,11 +20,14 @@ namespace Three_Thing_Game
         private Texture2D backgroundT, titleT, startT, optionsT, quitT;
 
         //temp
-        private int screenWidth = 800;
-        private int screenHeight = 600;
+        private int screenWidth = 1280;
+        private int screenHeight = 720;
         private int sectX, sectY;
 
         private int option;
+        private KeyboardState _currentKeyboardState, _previousKeyboardState;
+        private GamePadState _currentGamepadState, _previousGamepadState;
+
 
         public MenuClass()
         {
@@ -35,7 +38,6 @@ namespace Three_Thing_Game
         protected override void Initialize()
         {
             camera = new Camera();
-
             base.Initialize();
         }
 
@@ -53,10 +55,10 @@ namespace Three_Thing_Game
             quitT = Content.Load<Texture2D>("blueSquare");
 
             background = new Sprite(backgroundT, new Vector2(0, 0), screenWidth, screenHeight);
-            title = new Sprite(titleT, new Vector2(0, -2 * sectY), 4 * sectX, 2* sectY);
-            start = new Sprite(startT, new Vector2(0, 2 * sectY), 4 * sectX, (int)(1.5 * sectY));
-            options = new Sprite(optionsT, new Vector2(0, 4 * sectY), 4 * sectX, (int)(1.5 * sectY));
-            quit = new Sprite(quitT, new Vector2(0, 6 * sectY), 4 * sectX, (int)(1.5 * sectY));
+            title = new Sprite(titleT, new Vector2(0, -6 * sectY), 6 * sectX, 3 * sectY);
+            start = new Sprite(startT, new Vector2(0, -2 * sectY), 4 * sectX, 2 * sectY);
+            options = new Sprite(optionsT, new Vector2(0, 2 * sectY), 4 * sectX, 2 * sectY);
+            quit = new Sprite(quitT, new Vector2(0, 6 * sectY), 4 * sectX, 2 * sectY);
         }
 
         protected override void UnloadContent()
@@ -67,21 +69,26 @@ namespace Three_Thing_Game
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).DPad.Up == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Up))
+            _currentKeyboardState = Keyboard.GetState();
+            _currentGamepadState = GamePad.GetState(PlayerIndex.One);
+
+            if ((_currentKeyboardState.IsKeyDown(Keys.Up) && _previousKeyboardState.IsKeyUp(Keys.Up)) || ((_currentKeyboardState.IsKeyDown(Keys.W) && _previousKeyboardState.IsKeyUp(Keys.W))) || (_currentGamepadState.IsButtonDown(Buttons.DPadUp) && _previousGamepadState.IsButtonUp(Buttons.DPadUp)))
             {
                 option -= 1;
-                if (option == -1) option = 2;
+                if (option <= -1) option = 2;
             }
-            else if (GamePad.GetState(PlayerIndex.One).DPad.Down == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Down))
+            if ((_currentKeyboardState.IsKeyDown(Keys.Down) &&_previousKeyboardState.IsKeyUp(Keys.Down))||(_currentKeyboardState.IsKeyDown(Keys.S) &&_previousKeyboardState.IsKeyUp(Keys.S))||(_currentGamepadState.IsButtonDown(Buttons.DPadDown) && _previousGamepadState.IsButtonUp(Buttons.DPadDown)))
             {
                 option += 1;
-                if (option == 2) option = 0;
+                if (option >= 3) option = 0;
             }
             else if (GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Enter))
             {
                 if (option == 0)
                 {
                     // TODO - start game
+                    using (var game = new GameClass())
+                        game.Run();
                 }
                 else if (option == 1)
                 {
@@ -91,8 +98,16 @@ namespace Three_Thing_Game
                 {
                     Exit();
                 }
-
             }
+
+            _previousKeyboardState = _currentKeyboardState;
+            _previousGamepadState = _currentGamepadState;
+            start.Colour = Color.White;
+            options.Colour = Color.White;
+            quit.Colour = Color.White;
+            if (option == 0) { start.Colour = Color.Green; }
+            if (option == 1) { options.Colour = Color.Green; }
+            if (option == 2) { quit.Colour = Color.Green; }
             base.Update(gameTime);
         }
 
@@ -102,20 +117,21 @@ namespace Three_Thing_Game
 
             var device = graphics.GraphicsDevice;
 
-            spriteBatch.Begin(SpriteSortMode.BackToFront,
+            spriteBatch.Begin(SpriteSortMode.Immediate,
                       BlendState.AlphaBlend,
                       null,
                       null,
                       null,
                       null,
                       camera.get_transformation(device));
-            title.Draw(spriteBatch);
+            background.DrawNoRot(spriteBatch);
+            title.DrawNoRot(spriteBatch);
 
-            start.Draw(spriteBatch);
-            options.Draw(spriteBatch);
-            quit.Draw(spriteBatch);
+            start.DrawNoRot(spriteBatch);
+            options.DrawNoRot(spriteBatch);
+            quit.DrawNoRot(spriteBatch);
 
-            background.Draw(spriteBatch);
+
             spriteBatch.End();
             base.Draw(gameTime);
         }

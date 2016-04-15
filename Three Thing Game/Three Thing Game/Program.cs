@@ -14,7 +14,7 @@ namespace Three_Thing_Game
         [STAThread]
         static void Main()
         {
-            using (var game = new GameClass())
+            using (var game = new MenuClass())
                 game.Run();
         }
     }
