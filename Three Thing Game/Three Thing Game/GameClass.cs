@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 using RobsPhysics;
 using RobsSprite;
 
@@ -15,6 +16,10 @@ namespace Three_Thing_Game
         SpriteBatch spriteBatch;
 
         Camera camera;
+
+        Texture2D block;
+        int[,] map;
+        List<Sprite> mapSprites;
 
         public GameClass()
         {
@@ -32,7 +37,27 @@ namespace Three_Thing_Game
         {
             // TODO: Add your initialization logic here
 
-            camera = new Camera(new Vector2(0, 0), 1f);
+            camera = new Camera(new Vector2(0, 0), 50f);
+
+            map = new int[,] { 
+            { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 }, 
+            { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 }, 
+            { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 }, 
+            { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 }, 
+            { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }};
+
+            mapSprites = new List<Sprite>();
+
+            for (int col = 0; col < map.GetLength(0); col++)
+            {
+                for (int row = 0 ; row < map.GetLength(1); row++)
+                {
+                    if (map[col, row] > 0)
+                    {
+                        mapSprites.Add(new Sprite(null, new Vector2(row, col), 1, 1));
+                    }
+                }
+            }
 
             base.Initialize();
         }
@@ -46,7 +71,12 @@ namespace Three_Thing_Game
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            block = Content.Load<Texture2D>("TestBlock");
+
+            foreach (Sprite sprite in mapSprites)
+            {
+                sprite.spriteTexture = block;
+            }
         }
 
         /// <summary>
@@ -90,6 +120,11 @@ namespace Three_Thing_Game
                       null,
                       null,
                       camera.get_transformation(device));
+
+            foreach (Sprite sprite in mapSprites)
+            {
+                sprite.Draw(spriteBatch);
+            }
 
             spriteBatch.End();
 

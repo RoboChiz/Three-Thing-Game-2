@@ -153,7 +153,7 @@ namespace RobsSprite
 
             public Camera()
             {
-                _zoom = 0.0f;
+                _zoom = 1f;
                 _rotation = 0.0f;
                 _pos = Vector2.Zero;
             }
