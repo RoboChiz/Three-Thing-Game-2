@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using RobsSprite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,14 @@ namespace Three_Thing_Game
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        private Sprite background, title, start, options, quit;
+        private Texture2D backgroundT, titleT, startT, optionsT, quitT;
+
+        //temp
+        private int screenWidth = 800;
+        private int screenHeight = 600;
+        private int sectX, sectY;
+
         public MenuClass()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -21,18 +30,21 @@ namespace Three_Thing_Game
         }
         
         protected override void Initialize()
-        {
-            // TODO: Add your initialization logic here
-
+        { 
             base.Initialize();
         }
         
         protected override void LoadContent()
         {
+            sectX = screenWidth / 16;
+            sectY = screenHeight / 16;
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            // TODO: use this.Content to load your game content here
+            backgroundT = Content.Load<Texture2D>("blackSquare.png");
+            titleT = Content.Load<Texture2D>("blueSquare.png");
+            background = new Sprite(backgroundT, new Vector2(8*sectX, 0), screenWidth, screenWidth); //GameClass.  
+            title = new Sprite(backgroundT, new Vector2(0, 0), screenWidth, screenWidth);
+       
         }
         
         protected override void UnloadContent()
