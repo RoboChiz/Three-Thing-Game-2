@@ -38,6 +38,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Block.cs" />
     <Compile Include="GameClass.cs" />
     <Compile Include="MenuClass.cs" />
     <Compile Include="Physics.cs" />
