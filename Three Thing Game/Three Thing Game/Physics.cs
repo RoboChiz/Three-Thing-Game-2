@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using RobsSprite;
+using Three_Thing_Game;
 #endregion
 
 namespace RobsPhysics
@@ -112,6 +113,7 @@ namespace RobsPhysics
                                     {
                                         ResolveCollision(rb, new Vector2(0, -1));
                                         rb.Position = new Vector2(rb.Position.X,lastPos.Y);
+
                                     }
 
                                     //Check Right Wall
@@ -122,7 +124,7 @@ namespace RobsPhysics
                                     }
 
                                     //Check Left Wall
-                                    if (yPos == (int)rb.Position.Y && rb.Position.X > xPos && rb.Position.X - 0.5f <= xPos)
+                                    if (yPos == (int)rb.Position.Y && rb.Position.X > xPos && rb.Position.X - 0.6f <= xPos)
                                     {
                                         ResolveCollision(rb, new Vector2(1, 0));
                                         rb.Position = new Vector2(lastPos.X, rb.Position.Y);
