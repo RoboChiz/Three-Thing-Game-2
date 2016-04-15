@@ -14,6 +14,7 @@ namespace Three_Thing_Game
     {
 
         int currentFrame = 0, maxframe = 9;
+        private float playerSpeed = 200f;
 
         public Player(Vector2 pos, int width, int height) : base(null, pos, width, height, 1, 60) { }
 
@@ -50,6 +51,8 @@ namespace Three_Thing_Game
                 hori = -1;
             if (currentKeyboardState.IsKeyDown(Keys.Right))
                 hori = 1;
+
+            Velocity = new Vector2(playerSpeed * hori * deltaTime, Velocity.Y);
 
         }
 

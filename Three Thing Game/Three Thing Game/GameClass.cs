@@ -48,9 +48,9 @@ namespace Three_Thing_Game
 
             //Load the Level
             map = new int[,] { 
-            { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 }, 
-            { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 }, 
-            { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 }, 
+            { 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1 }, 
+            { 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1 }, 
+            { 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1 }, 
             { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 }, 
             { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }};
 
@@ -112,6 +112,7 @@ namespace Three_Thing_Game
             float deltaTime = (gameTime.ElapsedGameTime.Milliseconds / 1000f);
 
             player.Update(deltaTime);
+
             PhysicsManager.Step(deltaTime);
 
             base.Update(gameTime);

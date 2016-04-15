@@ -98,18 +98,37 @@ namespace RobsPhysics
                         {
                             int xPos = (int)rb.Position.X + x;
                             int yPos = (int)rb.Position.Y + y;
-                            int xRB = (int)rb.Position.X;
+
+                            int width = colliderMap.GetLength(1);
+                            int height = colliderMap.GetLength(0);
 
                             //Check that block is inside of Check Range
-                            if (xPos >= 0 && xPos + x < colliderMap.GetLength(1) && yPos >= 0 && yPos < colliderMap.GetLength(0))
+                            if (xPos >= 0 && xPos < width && yPos >= 0 && yPos < height)
                             {
                                 if (colliderMap[yPos, xPos] > 0)
                                 {
-                                    if (xPos == xRB && rb.Position.Y + 1.4f >= yPos)
+                                    //Check below
+                                    if (xPos == (int)rb.Position.X && rb.Position.Y < yPos && rb.Position.Y + 1.4f >= yPos)
                                     {
                                         ResolveCollision(rb, new Vector2(0, -1));
-                                        rb.Position = lastPos;
+                                        rb.Position = new Vector2(rb.Position.X,lastPos.Y);
                                     }
+
+                                    //Check Right Wall
+                                    if (yPos == (int)rb.Position.Y && rb.Position.X < xPos && rb.Position.X + 0.5f >= xPos)
+                                    {
+                                        ResolveCollision(rb, new Vector2(1, 0));
+                                        rb.Position = new Vector2(lastPos.X, rb.Position.Y);
+                                    }
+
+                                    //Check Left Wall
+                                    if (yPos == (int)rb.Position.Y && rb.Position.X > xPos && rb.Position.X - 0.5f <= xPos)
+                                    {
+                                        ResolveCollision(rb, new Vector2(1, 0));
+                                        rb.Position = new Vector2(lastPos.X, rb.Position.Y);
+                                    }
+
+                                    
                                 }            
                             }
                         }
