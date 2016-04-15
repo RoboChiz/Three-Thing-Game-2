@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using RobsPhysics;
+using RobsSprite;
 
 namespace Three_Thing_Game
 {
@@ -11,6 +13,8 @@ namespace Three_Thing_Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+
+        Camera camera;
 
         public GameClass()
         {
@@ -27,6 +31,8 @@ namespace Three_Thing_Game
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+
+            camera = new Camera(new Vector2(0, 0), 1f);
 
             base.Initialize();
         }
@@ -75,7 +81,17 @@ namespace Three_Thing_Game
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            var device = graphics.GraphicsDevice;
+
+            spriteBatch.Begin(SpriteSortMode.BackToFront,
+                      BlendState.AlphaBlend,
+                      null,
+                      null,
+                      null,
+                      null,
+                      camera.get_transformation(device));
+
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
