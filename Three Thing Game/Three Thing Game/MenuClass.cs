@@ -23,6 +23,7 @@ namespace Three_Thing_Game
         private int screenWidth = 1280;
         private int screenHeight = 720;
         private int sectX, sectY;
+        private bool main;
 
         private int option;
         private KeyboardState _currentKeyboardState, _previousKeyboardState;
@@ -46,7 +47,8 @@ namespace Three_Thing_Game
 
 
         protected override void LoadContent()
-        {            
+        {
+            main = true;
             sectX = screenWidth / 16;
             sectY = screenHeight / 16;
             // Create a new SpriteBatch, which can be used to draw textures.
@@ -77,30 +79,51 @@ namespace Three_Thing_Game
 
             if ((_currentKeyboardState.IsKeyDown(Keys.Up) && _previousKeyboardState.IsKeyUp(Keys.Up)) || ((_currentKeyboardState.IsKeyDown(Keys.W) && _previousKeyboardState.IsKeyUp(Keys.W))) || (_currentGamepadState.IsButtonDown(Buttons.DPadUp) && _previousGamepadState.IsButtonUp(Buttons.DPadUp)))
             {
-                option -= 1;
-                if (option <= -1) option = 2;
+                if (main)
+                {
+                    option -= 1;
+                    if (option <= -1) option = 2;
+                }
+                else
+                { //Options
+
+                }
             }
-            if ((_currentKeyboardState.IsKeyDown(Keys.Down) &&_previousKeyboardState.IsKeyUp(Keys.Down))||(_currentKeyboardState.IsKeyDown(Keys.S) &&_previousKeyboardState.IsKeyUp(Keys.S))||(_currentGamepadState.IsButtonDown(Buttons.DPadDown) && _previousGamepadState.IsButtonUp(Buttons.DPadDown)))
+            if ((_currentKeyboardState.IsKeyDown(Keys.Down) && _previousKeyboardState.IsKeyUp(Keys.Down)) || (_currentKeyboardState.IsKeyDown(Keys.S) && _previousKeyboardState.IsKeyUp(Keys.S)) || (_currentGamepadState.IsButtonDown(Buttons.DPadDown) && _previousGamepadState.IsButtonUp(Buttons.DPadDown)))
             {
-                option += 1;
-                if (option >= 3) option = 0;
+                if (main)
+                {
+                    option += 1;
+                    if (option >= 3) option = 0;
+                }
+                else
+                {//Options
+
+                }
             }
             else if (GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Enter))
             {
-                if (option == 0)
+                if (main)
                 {
-                    // TODO - start game
-                    using (var game = new GameClass())
-                        game.Run();
-                    Exit();
+                    if (option == 0)
+                    {
+                        // TODO - start game
+                        using (var game = new GameClass())
+                            game.Run();
+                        Exit();
+                    }
+                    else if (option == 1)
+                    {
+                        //TODO - OPTIONS 
+                    }
+                    else if (option == 2)
+                    {
+                        Exit();
+                    }
                 }
-                else if (option == 1)
-                {
-                    //TODO - OPTIONS 
-                }
-                else if (option == 2)
-                {
-                    Exit();
+                else
+                { //Options
+
                 }
             }
 
@@ -123,7 +146,7 @@ namespace Three_Thing_Game
 
             spriteBatch.Begin(SpriteSortMode.Immediate,
                       BlendState.AlphaBlend,
-                      null,
+                      SamplerState.PointClamp,
                       null,
                       null,
                       null,
