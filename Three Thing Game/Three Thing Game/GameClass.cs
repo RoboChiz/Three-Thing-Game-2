@@ -16,8 +16,9 @@ namespace Three_Thing_Game
         SpriteBatch spriteBatch;
 
         Camera camera;
+        Player player;
 
-        Texture2D block, player;
+        Texture2D blockTexture, playerTexture;
         int[,] map;
         List<Sprite> mapSprites;
 
@@ -41,8 +42,11 @@ namespace Three_Thing_Game
         {
             // TODO: Add your initialization logic here
 
-            camera = new Camera(new Vector2(0, 0), 30f);
+            camera = new Camera(new Vector2(50, 0), 5);
 
+            player = new Player(new Vector2(1, 0), 2, 2);
+
+            //Load the Level
             map = new int[,] { 
             { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 }, 
             { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 }, 
@@ -63,6 +67,8 @@ namespace Three_Thing_Game
                 }
             }
 
+            PhysicsManager.colliderMap = map;
+
             base.Initialize();
         }
 
@@ -75,13 +81,15 @@ namespace Three_Thing_Game
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            block = Content.Load<Texture2D>("TestBlock");
-            player = Content.Load<Texture2D>("Professor");
+            blockTexture = Content.Load<Texture2D>("TestBlock");
+            playerTexture = Content.Load<Texture2D>("Professor");
 
             foreach (Sprite sprite in mapSprites)
             {
-                sprite.spriteTexture = block;
+                sprite.spriteTexture = blockTexture;
             }
+
+            player.spriteTexture = playerTexture;
         }
 
         /// <summary>
@@ -100,10 +108,11 @@ namespace Three_Thing_Game
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
 
-            // TODO: Add your update logic here
+            float deltaTime = (gameTime.ElapsedGameTime.Milliseconds / 1000f);
+
+            player.Update(deltaTime);
+            PhysicsManager.Step(deltaTime);
 
             base.Update(gameTime);
         }
@@ -118,7 +127,7 @@ namespace Three_Thing_Game
 
             var device = graphics.GraphicsDevice;
 
-            spriteBatch.Begin(SpriteSortMode.BackToFront,
+            spriteBatch.Begin(SpriteSortMode.Immediate,
                       BlendState.AlphaBlend,
                       SamplerState.PointClamp,
                       null,
@@ -130,6 +139,8 @@ namespace Three_Thing_Game
             {
                 sprite.Draw(spriteBatch);
             }
+
+            player.Draw(spriteBatch);
 
             spriteBatch.End();
 

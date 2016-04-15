@@ -19,9 +19,6 @@ namespace RobsSprite
         // Texture of the sprite
         public Texture2D spriteTexture;
 
-        //The size of the Sprite (with scale applied)
-        public Rectangle Size;
-
         public static float X = 0.0f;
         public static float Y = 0.0f;
 
@@ -32,14 +29,10 @@ namespace RobsSprite
         private Vector2 position = new Vector2(X, Y);
 
         //The amount to increase/decrease the size of the original sprite. 
-        private float mScale = 1f;
+        protected static float mScale = 10f;
 
         // Rotation of sprite
         public float rotation = 0f;
-
-        // Direction of sprite
-        private Vector2 direction;
-
 
         private Color colour;
 
@@ -73,8 +66,6 @@ namespace RobsSprite
             set
             {
                 mScale = value;
-                //Recalculate the Size of the Sprite with the new scale
-                Size = new Rectangle(0, 0, (int)(spriteTexture.Width * Scale), (int)(spriteTexture.Height * Scale));
             }
         }
 
@@ -116,11 +107,11 @@ namespace RobsSprite
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            int spriteWidth = (int)(Width);
-            int spriteHeight = (int)(Height);
+            int spriteWidth = (int)(Width * mScale);
+            int spriteHeight = (int)(Height * mScale);
 
-            int spriteX = (int)(Position.X);
-            int spriteY = (int)(Position.Y);
+            int spriteX = (int)(Position.X * mScale);
+            int spriteY = (int)(Position.Y * mScale);
 
             Rectangle destinationRectangle = new Rectangle(spriteX, spriteY, spriteWidth, spriteHeight);
 
