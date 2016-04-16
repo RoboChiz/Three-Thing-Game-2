@@ -21,6 +21,7 @@ namespace Three_Thing_Game
 
         public float maxDistance = 3f;
         public bool flipImage;
+        public int pHealth;
 
         public Vector4 displayRect;
 
@@ -43,7 +44,7 @@ namespace Three_Thing_Game
             spriteBatch.Draw(collideTexture, new Rectangle((int)(actualX * mScale), (int)(actualY * mScale), (int)(collideWidth * mScale), (int)(collideHeight * mScale)), sourceRectangle, Color.White, Rotation, Vector2.Zero, SpriteEffects.None, 0);
 
 
-            if(!flipImage)
+            if (!flipImage)
                 spriteBatch.Draw(spriteTexture, destinationRectangle, sourceRectangle, Color.White, Rotation, Vector2.Zero, SpriteEffects.None, 0);
             else
                 spriteBatch.Draw(spriteTexture, destinationRectangle, sourceRectangle, Color.White, Rotation, Vector2.Zero, SpriteEffects.FlipHorizontally, 0);
@@ -53,6 +54,12 @@ namespace Three_Thing_Game
             Rectangle drawRect = new Rectangle((int)(displayRect.X * mScale), (int)(displayRect.Y * mScale), (int)(displayRect.Z * mScale), (int)(displayRect.W * mScale));
             spriteBatch.Draw(collideTexture, drawRect, sourceRectangle, flash, Rotation, Vector2.Zero, SpriteEffects.None, 0);
 
+        }
+
+        public int health
+        {
+            get { return pHealth; }
+            set { width = value; }
         }
 
         public void Update(float deltaTime)
@@ -82,7 +89,7 @@ namespace Three_Thing_Game
 
             Velocity = new Vector2(playerSpeed * hori * deltaTime, Velocity.Y);
 
-            if(hori != 0)
+            if (hori != 0)
             {
                 if (currentFrame == 0)
                 {
@@ -102,8 +109,8 @@ namespace Three_Thing_Game
                 currentFrameTime = 0f;
             }
 
-            if(!isFalling && verti)
-                AddForce(new Vector2(0,-jumpForce));
+            if (!isFalling && verti)
+                AddForce(new Vector2(0, -jumpForce));
 
             isFalling = true;
 
