@@ -14,8 +14,8 @@ namespace Three_Thing_Game
     {
 
         float currentFrameTime;
-        int currentFrame = 0, maxframe = 9;
-        private float playerSpeed = 200f, jumpForce = 500f;
+        int currentFrame = 0;
+        private float playerSpeed = 200f, jumpForce = 400f;
         public bool flipImage;
         public bool isFalling = false;
 

@@ -62,8 +62,7 @@ namespace RobsPhysics
 
                 Player person = rb as Player;
                 //Add Gravity
-                if(person == null || person.isFalling)
-                    rb.AddForce(new Vector2(0, 10f));
+                rb.AddForce(new Vector2(0, 10f));
 
                 rb.colliding = false;
 
@@ -115,25 +114,34 @@ namespace RobsPhysics
                                     bool collision = false;
                                     bool pushX = false, pushY = false;
 
-                                    float myX = rb.Position.X + 1f, myY = rb.Position.Y;
-                                    //Top Of Block
-                                    if (xPos >= myX && xPos <= myX + 1 && myY < yPos && myY + 1.9f > yPos)
+                                    float myX = rb.Position.X, myY = rb.Position.Y;
+
+                                    //Floor
+                                    if(myX > xPos - 0.5 && myX < xPos && myY + 1.9f >= yPos && myY + 1.9f <= yPos + 1)
                                     {
+                                        collision = true;
                                         pushY = true;
 
                                         person.isFalling = false;
-                                        rb.Velocity = new Vector2(rb.Velocity.X, 0);
-
-                                        collision = true;                                       
+                                        person.Velocity = new Vector2(rb.Velocity.X, 0);
                                     }
 
-                                    //Right Side of Block
-                                    if (yPos > myY - 1 && yPos < myY + 1 && myX > xPos && myY < xPos + 1f)
+                                    //Roof
+                                    if(myX > xPos - 0.5 && myX < xPos && myY <= yPos + 0.8 && myY >= yPos)
                                     {
-                                        pushX = true;
                                         collision = true;
+                                        pushY = true;
                                     }
-                                    
+
+                                    //Sides
+                                    float playerWidth = 1.2f, heightCheck = 1.1f;
+
+                                    if (Math.Abs(yPos - myY) < heightCheck && myX + playerWidth > xPos && myX < xPos)
+                                    {
+                                        Console.WriteLine("Left Collided with " + xPos + "," + yPos);
+                                        collision = true;
+                                        pushX = true;
+                                    }
 
                                     if (collision)
                                     {
