@@ -60,8 +60,10 @@ namespace RobsPhysics
             foreach (RigidBody rb in objs)
             {
 
-                //Add Grivity
-                rb.AddForce(new Vector2(0, 10f));
+                Player person = rb as Player;
+                //Add Gravity
+                if(person == null || person.isFalling)
+                    rb.AddForce(new Vector2(0, 10f));
 
                 rb.colliding = false;
 
@@ -91,8 +93,9 @@ namespace RobsPhysics
 
                     rb.Position += rb.Velocity * deltaTime;
 
+                    #region Collisions
                     //Do Map Collisions
-                    int checkSize = rb.height + 1;
+                    int checkSize = 3;
                     for (int y = -checkSize; y < checkSize; y++)
                     {
                         for (int x = -checkSize; x < checkSize; x++)
@@ -101,44 +104,64 @@ namespace RobsPhysics
                             int yPos = (int)rb.Position.Y + y;
 
                             int width = colliderMap.GetLength(1);
-                            int height = colliderMap.GetLength(0);
+                            int height = colliderMap.GetLength(0);                           
 
                             //Check that block is inside of Check Range
                             if (xPos >= 0 && xPos < width && yPos >= 0 && yPos < height)
                             {
                                 if (colliderMap[yPos, xPos] > 0)
                                 {
-                                    //Check below
-                                    if (xPos == (int)rb.Position.X && rb.Position.Y < yPos && rb.Position.Y + 1.4f >= yPos)
+
+                                    bool collision = false;
+                                    bool pushX = false, pushY = false;
+
+                                    float myX = rb.Position.X + 1f, myY = rb.Position.Y;
+                                    //Top Of Block
+                                    if (xPos >= myX && xPos <= myX + 1 && myY < yPos && myY + 1.9f > yPos)
                                     {
-                                        ResolveCollision(rb, new Vector2(0, -1));
-                                        rb.Position = new Vector2(rb.Position.X,lastPos.Y);
+                                        pushY = true;
 
-                                        Player person = rb as Player;
-                                        if (person != null)
-                                            person.isFalling = false;
+                                        person.isFalling = false;
+                                        rb.Velocity = new Vector2(rb.Velocity.X, 0);
 
+                                        collision = true;                                       
                                     }
 
-                                    //Check Right Wall
-                                    if (yPos == (int)rb.Position.Y && rb.Position.X < xPos && rb.Position.X + 0.5f >= xPos)
+                                    //Right Side of Block
+                                    if (yPos > myY - 1 && yPos < myY + 1 && myX > xPos && myY < xPos + 1f)
                                     {
-                                        ResolveCollision(rb, new Vector2(1, 0));
-                                        rb.Position = new Vector2(lastPos.X, rb.Position.Y);
+                                        pushX = true;
+                                        collision = true;
                                     }
-
-                                    //Check Left Wall
-                                    if (yPos == (int)rb.Position.Y && rb.Position.X > xPos && rb.Position.X - 0.6f <= xPos)
-                                    {
-                                        ResolveCollision(rb, new Vector2(1, 0));
-                                        rb.Position = new Vector2(lastPos.X, rb.Position.Y);
-                                    }
-
                                     
-                                }            
+
+                                    if (collision)
+                                    {
+
+
+                                        switch (colliderMap[yPos, xPos])
+                                        {
+                                            case 1: //Collision
+
+                                                if (pushY)
+                                                    rb.Position = new Vector2(rb.Position.X, lastPos.Y);
+                                                if (pushX)
+                                                    rb.Position = new Vector2(lastPos.X, rb.Position.Y);
+
+                                                break;
+                                            case 2: //Health
+                                                break;
+                                            case 3: //Money
+                                                break;
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
+                    #endregion
+
+                    
 
 
                 }
@@ -147,6 +170,11 @@ namespace RobsPhysics
 
         }
 
+        public static bool BoxIntersection(Rectangle a, Rectangle b)
+        {
+            return (Math.Abs(a.X - b.X) * 2 < (a.Width + b.Width)) &&
+                   (Math.Abs(a.Y - b.Y) * 2 < (a.Height + b.Height));
+        }
         public static void AddObj(RigidBody rbody)
         {
             objs.Add(rbody);

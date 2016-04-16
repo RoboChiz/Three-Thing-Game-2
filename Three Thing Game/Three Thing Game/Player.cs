@@ -13,6 +13,7 @@ namespace Three_Thing_Game
     class Player : RigidBody
     {
 
+        float currentFrameTime;
         int currentFrame = 0, maxframe = 9;
         private float playerSpeed = 200f, jumpForce = 500f;
         public bool flipImage;
@@ -31,7 +32,7 @@ namespace Three_Thing_Game
             Rectangle destinationRectangle = new Rectangle(spriteX, spriteY, spriteWidth, spriteHeight);
             Rectangle sourceRectangle = new Rectangle(35 * currentFrame, 0, 35, 35);
 
-            Vector2 spriteOrigin = new Vector2((spriteTexture.Width / (float)maxframe) / 2f, spriteTexture.Height / 2f);
+            Vector2 spriteOrigin = new Vector2(0f,0f);
 
             if(!flipImage)
                 spriteBatch.Draw(spriteTexture, destinationRectangle, sourceRectangle, Color.White, Rotation, spriteOrigin, SpriteEffects.None, 0);
@@ -65,6 +66,26 @@ namespace Three_Thing_Game
                 verti = true;
 
             Velocity = new Vector2(playerSpeed * hori * deltaTime, Velocity.Y);
+
+            if(hori != 0)
+            {
+                if (currentFrame == 0)
+                {
+                    currentFrame = 1;
+                    currentFrameTime = 1f;
+                }
+
+                currentFrameTime += deltaTime * 10;
+                currentFrame = (int)currentFrameTime;
+
+                if (currentFrameTime >= 9)
+                    currentFrameTime = 1;
+            }
+            else
+            {
+                currentFrame = 0;
+                currentFrameTime = 0f;
+            }
 
             if(!isFalling && verti)
                 AddForce(new Vector2(0,-jumpForce));

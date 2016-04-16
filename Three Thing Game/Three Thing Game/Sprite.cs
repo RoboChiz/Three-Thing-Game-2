@@ -115,7 +115,7 @@ namespace RobsSprite
 
             Rectangle destinationRectangle = new Rectangle(spriteX, spriteY, spriteWidth, spriteHeight);
 
-            Vector2 spriteOrigin = new Vector2(spriteTexture.Width / 2f, spriteTexture.Height / 2f);
+            Vector2 spriteOrigin = new Vector2(0f,0f);
 
             spriteBatch.Draw(spriteTexture, destinationRectangle, null, Color.White, Rotation, spriteOrigin, SpriteEffects.None, 0);
 
