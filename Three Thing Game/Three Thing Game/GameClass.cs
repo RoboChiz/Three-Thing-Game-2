@@ -160,7 +160,7 @@ namespace Three_Thing_Game
             var device = graphics.GraphicsDevice;
 
             spriteBatch.Begin(SpriteSortMode.Immediate,
-                      BlendState.AlphaBlend,
+                      BlendState.NonPremultiplied,
                       SamplerState.PointClamp,
                       null,
                       null,

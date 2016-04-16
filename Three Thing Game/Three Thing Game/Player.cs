@@ -17,9 +17,12 @@ namespace Three_Thing_Game
 
         float currentFrameTime;
         int currentFrame = 0;
-        private float playerSpeed = 200f, jumpForce = 450f, attackDistance = 0f, chargeSpeed = 2f;
+        private float playerSpeed = 200f, jumpForce = 450f, attackDistance = 0f, chargeSpeed = 2f, fadeTime = 0f;
+
         public float maxDistance = 3f;
         public bool flipImage;
+
+        public Vector4 displayRect;
 
         public Player(Vector2 pos, int width, int height) : base(null, pos, width, height, 1, 12) { }
 
@@ -44,6 +47,12 @@ namespace Three_Thing_Game
                 spriteBatch.Draw(spriteTexture, destinationRectangle, sourceRectangle, Color.White, Rotation, Vector2.Zero, SpriteEffects.None, 0);
             else
                 spriteBatch.Draw(spriteTexture, destinationRectangle, sourceRectangle, Color.White, Rotation, Vector2.Zero, SpriteEffects.FlipHorizontally, 0);
+
+            Color flash = new Color(255, 255, 255, (byte)MathHelper.Clamp(fadeTime, 0, 255));
+
+            Rectangle drawRect = new Rectangle((int)(displayRect.X * mScale), (int)(displayRect.Y * mScale), (int)(displayRect.Z * mScale), (int)(displayRect.W * mScale));
+            spriteBatch.Draw(collideTexture, drawRect, sourceRectangle, flash, Rotation, Vector2.Zero, SpriteEffects.None, 0);
+
         }
 
         public void Update(float deltaTime)
@@ -103,25 +112,43 @@ namespace Three_Thing_Game
             if (hori > 0)
                 flipImage = false;
 
-            //Do Attack
+            PhysicsManager.playerAttack = Vector4.Zero;
+
             bool attacking = false;
             if (currentKeyboardState.IsKeyDown(Keys.Enter) || currentKeyboardState.IsKeyDown(Keys.Space))
                 attacking = true;
 
             if (attacking)
             {
+                attackDistance += deltaTime * chargeSpeed;
+
                 if (attackDistance < 1)
                     attackDistance = 1;
                 if (attackDistance > maxDistance)
                     attackDistance = maxDistance;
-
-                attackDistance += deltaTime * chargeSpeed;
             }
             else if(attackDistance > 0)
             {
+                Console.WriteLine("ATTACK " + attackDistance);
+
+                fadeTime = 255f;
+
+                float actualX = (Position.X + width / 2f);
+                float actualY = (Position.Y + (height - collideHeight));
+
+                if(flipImage)
+                    PhysicsManager.playerAttack = new Vector4(actualX - attackDistance, actualY, attackDistance, collideHeight);
+                else
+                    PhysicsManager.playerAttack = new Vector4(actualX, actualY, attackDistance, collideHeight);
+
+                displayRect = PhysicsManager.playerAttack;
                 attackDistance = 0;
             }
 
+            if (fadeTime > 0)
+                fadeTime -= deltaTime * 150f;
+            else
+                fadeTime = 0;
         }
 
     }

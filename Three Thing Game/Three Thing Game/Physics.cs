@@ -15,7 +15,7 @@ namespace RobsPhysics
     {
 
         public static List<RigidBody> objs = new List<RigidBody>();
-        public static Rectangle playerAttack;
+        public static Vector4 playerAttack;
 
         public static int[,] colliderMap; //Used for efficentcy
 
@@ -98,9 +98,9 @@ namespace RobsPhysics
                     Enemy enemy = rb as Enemy;
                     if (enemy != null) //Must be enemy
                     {
-                        if(playerAttack.Width != 0 && playerAttack.Height != 0)
+                        if(playerAttack.Z != 0 && playerAttack.W != 0)
                         {
-                            if(Math.Abs(rb.Position.X - playerAttack.X) * 2 < (rb.collideWidth + playerAttack.Width) && Math.Abs(rb.Position.Y - playerAttack.Y) * 2 < (rb.collideHeight + playerAttack.Height))
+                            if(Math.Abs(rb.Position.X - playerAttack.X) * 2 < (rb.collideWidth + playerAttack.Z) && Math.Abs(rb.Position.Y - playerAttack.Y) * 2 < (rb.collideHeight + playerAttack.W))
                             {
                                 enemy.health -= 1;
                             }
@@ -148,7 +148,7 @@ namespace RobsPhysics
                                         rb.isFalling = false;
                                         rb.Velocity = new Vector2(rb.Velocity.X, 0);
 
-                                        Console.WriteLine("Floor Collision with " + xPos + "," + yPos);
+                                        //Console.WriteLine("Floor Collision with " + xPos + "," + yPos);
                                     }
 
                                     //Roof
@@ -158,13 +158,13 @@ namespace RobsPhysics
                                         actualX = (rb.Position.X + 1) - halfWidth;
                                         actualY = (rb.Position.Y + 1) - halfHeight;
 
-                                        Console.WriteLine("Roof Collision with " + xPos + "," + yPos);
+                                        //Console.WriteLine("Roof Collision with " + xPos + "," + yPos);
                                     }
 
                                     //Right Sides
                                     if (actualY + playerHeight > yPos + 0.005f && actualY < yPos + 1 && actualX < xPos + 1 && actualX + playerWidth > xPos)
                                     {
-                                        Console.WriteLine("Right Collision with " + xPos + "," + yPos);
+                                        //Console.WriteLine("Right Collision with " + xPos + "," + yPos);
                                         DoCollision(xPos, yPos, rb, lastPos, false, true);
                                         actualX = (rb.Position.X + 1) - halfWidth;
                                         actualY = (rb.Position.Y + 1) - halfHeight;
@@ -174,7 +174,7 @@ namespace RobsPhysics
                                     //Left Sides
                                     if (actualY + playerHeight > yPos + 0.005f && actualY < yPos + 1 && actualX + playerWidth > xPos && actualX < xPos)
                                     {
-                                        Console.WriteLine("Left Collision with " + xPos + "," + yPos);
+                                        //Console.WriteLine("Left Collision with " + xPos + "," + yPos);
                                         DoCollision(xPos, yPos, rb, lastPos, false, true);
                                         actualX = (rb.Position.X + 1) - halfWidth;
                                         actualY = (rb.Position.Y + 1) - halfHeight;
