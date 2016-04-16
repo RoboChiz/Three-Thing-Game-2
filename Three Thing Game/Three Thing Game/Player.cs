@@ -15,11 +15,11 @@ namespace Three_Thing_Game
 
         float currentFrameTime;
         int currentFrame = 0;
-        private float playerSpeed = 200f, jumpForce = 400f;
+        private float playerSpeed = 200f, jumpForce = 450f;
         public bool flipImage;
         public bool isFalling = false;
 
-        public Player(Vector2 pos, int width, int height) : base(null, pos, width, height, 1, 60) { }
+        public Player(Vector2 pos, int width, int height) : base(null, pos, width, height, 1, 12) { }
 
         public override void Draw(SpriteBatch spriteBatch)
         {

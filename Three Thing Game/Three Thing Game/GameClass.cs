@@ -42,10 +42,7 @@ namespace Three_Thing_Game
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            Vector2 location;
             camera = new Camera(new Vector2(315, 175), 4);
-
-            
 
             //Load the Level
             map = new int[,] { 
@@ -58,22 +55,23 @@ namespace Three_Thing_Game
             mapSprites = new List<Sprite>();
 
             myMap = new MapHandler();
-            
-           //player = new Player(new Vector2(25, 10), 2, 2);
-            player = new Player(myMap.getFree(), 2, 2);
+            //map = myMap.Map;
 
-           for (int col = 0; col < myMap.Map.GetLength(0); col++)
+           //player = new Player(new Vector2(25, 10), 2, 2);
+            player = new Player(new Vector2(1,0), 2, 2);
+
+           for (int col = 0; col < map.GetLength(0); col++)
            {
-               for (int row = 0; row < myMap.Map.GetLength(1); row++)
+               for (int row = 0; row < map.GetLength(1); row++)
                {
-                   if (myMap.Map[col, row] > 0)
+                   if (map[col, row] > 0)
                    {
                        mapSprites.Add(new Sprite(null, new Vector2(row, col), 1, 1));
                    }
                }
            }
 
-           PhysicsManager.colliderMap = myMap.Map;
+           PhysicsManager.colliderMap = map;
 
             base.Initialize();
         }
@@ -95,7 +93,7 @@ namespace Three_Thing_Game
                 sprite.spriteTexture = blockTexture;
             }
 
-            player.spriteTexture = playerTexture;
+            player.spriteTexture = blockTexture;
         }
 
         /// <summary>
