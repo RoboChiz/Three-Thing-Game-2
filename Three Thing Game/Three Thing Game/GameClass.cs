@@ -20,7 +20,7 @@ namespace Three_Thing_Game
         Player player;
         List<Enemy> enemies;
 
-        Texture2D blockTexture, playerTexture, heartTexture ,heartETexture;
+        Texture2D blockTexture, playerTexture, heartTexture, heartETexture;
         int[,] map;
         List<Sprite> mapSprites;
         List<Sprite> hearts;
@@ -58,13 +58,13 @@ namespace Three_Thing_Game
             mapSprites = new List<Sprite>();
 
             myMap = new MapHandler();
-            
+
             map = myMap.Map;
             player = new Player(myMap.getFree(), 2, 2);
             enemies = new List<Enemy>();
 
             //player = new Player(new Vector2(1, 0), 2, 2);
-            
+
             player.pHealth = 3;
             for (int col = 0; col < map.GetLength(0); col++)
             {
@@ -79,20 +79,24 @@ namespace Three_Thing_Game
 
             PhysicsManager.colliderMap = map;
 
-			enemies.Add(new Lurker(new Vector2(4,0),player));
+            Random randMonsterPosition = new Random();
+            for (int i = 0; i < 50; i++)
+            {
+                enemies.Add(new Lurker(myMap.getFreeMonster(randMonsterPosition), player));
+            }
 
-           for (int col = 0; col < map.GetLength(0); col++)
-           {
-               for (int row = 0; row < map.GetLength(1); row++)
-               {
-                   if (map[col, row] > 0)
-                   {
-                       mapSprites.Add(new Sprite(null, new Vector2(row, col), 1, 1));
-                   }
-               }
-           }
+            for (int col = 0; col < map.GetLength(0); col++)
+            {
+                for (int row = 0; row < map.GetLength(1); row++)
+                {
+                    if (map[col, row] > 0)
+                    {
+                        mapSprites.Add(new Sprite(null, new Vector2(row, col), 1, 1));
+                    }
+                }
+            }
 
-           PhysicsManager.colliderMap = map;
+            PhysicsManager.colliderMap = map;
             base.Initialize();
         }
 
@@ -127,9 +131,9 @@ namespace Three_Thing_Game
             }
 
             hearts = new List<Sprite>();
-            for(int i = 0; i < player.health; i++)
+            for (int i = 0; i < player.health; i++)
             {
-                hearts.Add(new Sprite(heartTexture, new Vector2(20 + (40 * i),30),30,30));
+                hearts.Add(new Sprite(heartTexture, new Vector2(20 + (40 * i), 30), 30, 30));
             }
         }
 
@@ -148,14 +152,14 @@ namespace Three_Thing_Game
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
-        {            
+        {
             float deltaTime = (gameTime.ElapsedGameTime.Milliseconds / 1000f);
-            
+
             camera._pos = Vector2.Lerp(camera._pos, player.Position * 10f, deltaTime * 2f);
-            
+
             player.Update(deltaTime);
 
-            for (int i = 0; i < enemies.Count; i++ )
+            for (int i = 0; i < enemies.Count; i++)
             {
 
                 Enemy e = enemies[i];
@@ -170,7 +174,7 @@ namespace Three_Thing_Game
             }
 
             player.Update(deltaTime);
-          
+
             PhysicsManager.Step(deltaTime);
 
             base.Update(gameTime);
@@ -186,17 +190,18 @@ namespace Three_Thing_Game
 
             var device = graphics.GraphicsDevice;
             spriteBatch.Begin();
-            for (int i = 0; i < 3; i++) {
-                if (player.pHealth >= (i+1))
+            for (int i = 0; i < 3; i++)
+            {
+                if (player.pHealth >= (i + 1))
                     hearts[i].spriteTexture = heartTexture;
                 else
                     hearts[i].spriteTexture = heartETexture;
 
-                    hearts[i].DrawNoRotCentre(spriteBatch);
-                
-                    
+                hearts[i].DrawNoRotCentre(spriteBatch);
+
+
             }
-                
+
             spriteBatch.End();
 
             spriteBatch.Begin(SpriteSortMode.Immediate,
@@ -218,7 +223,7 @@ namespace Three_Thing_Game
                 e.Draw(spriteBatch);
             }
 
-            player.Draw(spriteBatch);      
+            player.Draw(spriteBatch);
 
             spriteBatch.End();
 

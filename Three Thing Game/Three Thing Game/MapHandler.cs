@@ -39,13 +39,27 @@ namespace Three_Thing_Game
                     if (Map[y, x] == 0)
                     {
                         if (Map[y + 1, x] == 0 && Map[y + 2, x] == 0 && Map[y - 1, x] == 1 && Map[y, x - 1] == 0 && Map[y, x + 1] == 0)
-                        {                           
+                        {
                             return new Vector2(x, y);
                         }
                     }
                 }
             }
             return new Vector2(0, 0);
+        }
+
+        public Vector2 getFreeMonster(Random random)
+        {
+            while (true)
+            {
+                int y = random.Next(0, 148);
+                int x = random.Next(0, 148);
+                if (Map[y + 1, x] == 0 && Map[y + 2, x] == 0 && Map[y - 1, x] == 1 && Map[y, x - 1] == 0 && Map[y, x + 1] == 0)
+                {
+                    Console.WriteLine("Found: "+ x + " " + y);
+                    return new Vector2(x, y);
+                }
+            }
         }
 
 

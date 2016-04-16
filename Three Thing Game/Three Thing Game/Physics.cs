@@ -58,7 +58,6 @@ namespace RobsPhysics
 
         public static void Step(float deltaTime)
         {
-
             for (int i = 0; i < objs.Count; i++)
             {
 
