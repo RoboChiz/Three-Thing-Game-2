@@ -151,14 +151,30 @@ namespace RobsPhysics
                                         person.Velocity = new Vector2(rb.Velocity.X, 0);
                                     }
 
+                                    //Right Sides
+                                    if (actualY + playerHeight > yPos + 0.1f && actualY < yPos + 1 && actualX < xPos + 1 && actualX + playerWidth> xPos)
+                                    {
+                                        Console.WriteLine("Right Collision with " + xPos + "," + yPos);
+                                        collision = true;
+
+                                        pushX = true;
+                                    }
+
+                                    //Left Sides
+                                    if (actualY + playerHeight > yPos + 0.1f && actualY < yPos + 1 && actualX + playerWidth > xPos && actualX < xPos)
+                                    {
+                                        Console.WriteLine("Left Collision with " + xPos + "," + yPos);
+                                        collision = true;
+
+                                        pushX = true;
+                                    }
+
 
                                     if (collision)
                                     {
                                         switch (colliderMap[yPos, xPos])
                                         {
                                             case 1: //Collision
-
-                                                Console.WriteLine("Collision");
                                                 if (pushY)
                                                     rb.Position = new Vector2(rb.Position.X, lastPos.Y);
                                                 if (pushX)
