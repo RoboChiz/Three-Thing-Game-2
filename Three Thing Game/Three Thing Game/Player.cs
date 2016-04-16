@@ -13,6 +13,8 @@ namespace Three_Thing_Game
     class Player : RigidBody
     {
 
+        public Texture2D collideTexture;
+
         float currentFrameTime;
         int currentFrame = 0;
         private float playerSpeed = 200f, jumpForce = 450f;
@@ -23,8 +25,8 @@ namespace Three_Thing_Game
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            int spriteWidth = (int)(Width * mScale);
-            int spriteHeight = (int)(Height * mScale);
+            int spriteWidth = (int)(width * mScale);
+            int spriteHeight = (int)(height * mScale);
 
             int spriteX = (int)(Position.X * mScale);
             int spriteY = (int)(Position.Y * mScale);
@@ -38,6 +40,12 @@ namespace Three_Thing_Game
                 spriteBatch.Draw(spriteTexture, destinationRectangle, sourceRectangle, Color.White, Rotation, spriteOrigin, SpriteEffects.None, 0);
             else
                 spriteBatch.Draw(spriteTexture, destinationRectangle, sourceRectangle, Color.White, Rotation, spriteOrigin, SpriteEffects.FlipHorizontally, 0);
+
+            float actualX = ((Position.X + width) - (collideWidth/2f)) * mScale;
+            float actualY = (Position.Y + (height - (collideHeight/2f))) * mScale;
+
+            spriteBatch.Draw(collideTexture, new Rectangle((int)actualX, (int)actualY, (int)(collideWidth * mScale), (int)(collideHeight * mScale)), sourceRectangle, Color.White, Rotation, spriteOrigin, SpriteEffects.None, 0);
+
         }
 
         public void Update(float deltaTime)

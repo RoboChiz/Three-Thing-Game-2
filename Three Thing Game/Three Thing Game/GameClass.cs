@@ -48,7 +48,7 @@ namespace Three_Thing_Game
             map = new int[,] { 
             { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 }, 
             { 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1 }, 
-            { 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1 }, 
+            { 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1 }, 
             { 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1 }, 
             { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }};
 
@@ -93,7 +93,11 @@ namespace Three_Thing_Game
                 sprite.spriteTexture = blockTexture;
             }
 
-            player.spriteTexture = blockTexture;
+            player.spriteTexture = playerTexture;
+            player.collideTexture = blockTexture;
+
+            player.collideWidth = 1f;
+            player.collideHeight = 1.7f;
         }
 
         /// <summary>

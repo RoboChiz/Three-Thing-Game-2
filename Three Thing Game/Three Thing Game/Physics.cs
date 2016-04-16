@@ -95,12 +95,12 @@ namespace RobsPhysics
                     #region Collisions
 
                     //Sort Player Stuff which dosen't Change
-                    float playerWidth = 1.9f, playerHeight = 1.9f;
+                    float playerWidth = rb.collideWidth, playerHeight = rb.collideHeight;
 
                     float halfWidth = (playerWidth / 2f), halfHeight = (playerHeight / 2f);
                     //Get top left corner as position
-                    float actualX = (rb.Position.X + 1) - halfWidth;
-                    float actualY = (rb.Position.Y + 1) - halfHeight;
+                    float actualX = (rb.Position.X + rb.width) - halfWidth;
+                    float actualY = (rb.Position.Y + (rb.height - playerHeight));
 
                     int checkSize = 3;
                     for (int y = -checkSize; y < checkSize; y++)
@@ -118,64 +118,48 @@ namespace RobsPhysics
                             {
                                 if (colliderMap[yPos, xPos] > 0)
                                 {
+                                    //Right Sides
+                                    if (actualY + playerHeight > yPos + 0.005f && actualY < yPos + 1 && actualX < xPos + 1 && actualX + playerWidth > xPos)
+                                    {
+                                        Console.WriteLine("Right Collision with " + xPos + "," + yPos);
+                                        DoCollision(xPos, yPos, rb, lastPos, false, true);
+                                        actualX = (rb.Position.X + 1) - halfWidth;
+                                        actualY = (rb.Position.Y + 1) - halfHeight;
 
-                                    bool collision = false, pushX = false, pushY = false;
+                                    }
+
+                                    //Left Sides
+                                    if (actualY + playerHeight > yPos + 0.005f && actualY < yPos + 1 && actualX + playerWidth > xPos && actualX < xPos)
+                                    {
+                                        Console.WriteLine("Left Collision with " + xPos + "," + yPos);
+                                        DoCollision(xPos, yPos, rb, lastPos, false, true);
+                                        actualX = (rb.Position.X + 1) - halfWidth;
+                                        actualY = (rb.Position.Y + 1) - halfHeight;
+                                    }
 
                                     //Floor
-                                    if (actualX + playerWidth >= xPos && actualX < xPos + 1 && actualY + playerHeight >= yPos && actualY + playerHeight <= yPos + 1)
+                                    if (actualX + playerWidth > xPos && actualX < xPos + 1 && actualY + playerHeight >= yPos && actualY + playerHeight <= yPos + 1)
                                     {
-                                        collision = true;
-                                        pushY = true;
+                                        DoCollision(xPos, yPos, rb, lastPos, true, false);
+                                        actualX = (rb.Position.X + 1) - halfWidth;
+                                        actualY = (rb.Position.Y + 1) - halfHeight;
 
                                         person.isFalling = false;
                                         person.Velocity = new Vector2(rb.Velocity.X, 0);
+
+                                        Console.WriteLine("Floor Collision with " + xPos + "," + yPos);
                                     }
 
                                     //Roof
-                                    if (actualX + playerWidth >= xPos && actualX < xPos + 1 && actualY < yPos + 1 && actualY > yPos)
+                                    if (actualX + playerWidth > xPos && actualX < xPos + 1 && actualY < yPos + 1 && actualY > yPos)
                                     {
-                                        collision = true;
-                                        pushY = true;
+                                        DoCollision(xPos, yPos, rb, lastPos, true, false);
+                                        actualX = (rb.Position.X + 1) - halfWidth;
+                                        actualY = (rb.Position.Y + 1) - halfHeight;
 
                                         Console.WriteLine("Roof Collision with " + xPos + "," + yPos);
                                     }
 
-                                    //Right Sides
-                                    if (actualY + playerHeight > yPos + 0.1f && actualY < yPos + 1 && actualX < xPos + 1 && actualX + playerWidth> xPos)
-                                    {
-                                        Console.WriteLine("Right Collision with " + xPos + "," + yPos);
-                                        collision = true;
-
-                                        pushX = true;
-                                    }
-
-                                    //Left Sides
-                                    if (actualY + playerHeight > yPos + 0.1f && actualY < yPos + 1 && actualX + playerWidth > xPos && actualX < xPos)
-                                    {
-                                        Console.WriteLine("Left Collision with " + xPos + "," + yPos);
-                                        collision = true;
-
-                                        pushX = true;
-                                    }
-
-
-                                    if (collision)
-                                    {
-                                        switch (colliderMap[yPos, xPos])
-                                        {
-                                            case 1: //Collision
-                                                if (pushY)
-                                                    rb.Position = new Vector2(rb.Position.X, lastPos.Y);
-                                                if (pushX)
-                                                    rb.Position = new Vector2(lastPos.X, rb.Position.Y);
-
-                                                break;
-                                            case 2: //Health
-                                                break;
-                                            case 3: //Money
-                                                break;
-                                        }
-                                    }
                                 }
                             }
                         }
@@ -186,6 +170,24 @@ namespace RobsPhysics
 
             }
 
+        }
+
+        public static void DoCollision(int xPos, int yPos, RigidBody rb, Vector2 lastPos, bool pushY, bool pushX)
+        {
+            switch (colliderMap[yPos, xPos])
+            {
+                case 1: //Collision
+                    if (pushY)
+                        rb.Position = new Vector2(rb.Position.X, lastPos.Y);
+                    if (pushX)
+                        rb.Position = new Vector2(lastPos.X, rb.Position.Y);
+
+                    break;
+                case 2: //Health
+                    break;
+                case 3: //Money
+                    break;
+            }
         }
 
         public static void AddObj(RigidBody rbody)
@@ -208,6 +210,7 @@ namespace RobsPhysics
 
         public bool colliding;
         public RigidBody collidingWith;
+        public float collideWidth, collideHeight;
 
         public RigidBody(Texture2D textureVal, Vector2 pos, int widthVal, int heightVal, float mass, float maxSpeed)
             : base(textureVal, pos, widthVal, heightVal)
