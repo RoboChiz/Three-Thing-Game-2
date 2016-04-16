@@ -20,9 +20,10 @@ namespace Three_Thing_Game
         Player player;
         List<Enemy> enemies;
 
-        Texture2D blockTexture, playerTexture, heartTexture, heartETexture;
+        Texture2D blockTexture, playerTexture, heartTexture ,heartETexture, flashTexture, coinTexture;
         int[,] map;
         List<Sprite> mapSprites;
+
         List<Sprite> hearts;
         MapHandler myMap;
 
@@ -51,8 +52,8 @@ namespace Three_Thing_Game
             map = new int[,] { 
             { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 }, 
             { 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1 }, 
-            { 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1 }, 
-            { 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1 }, 
+            { 1, 0, 0, 2, 3, 0, 0, 0, 1, 0, 1 }, 
+            { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 }, 
             { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }};
 
             mapSprites = new List<Sprite>();
@@ -61,9 +62,9 @@ namespace Three_Thing_Game
 
             map = myMap.Map;
             player = new Player(myMap.getFree(), 2, 2);
-            enemies = new List<Enemy>();
 
-            //player = new Player(new Vector2(1, 0), 2, 2);
+            //player = new Player(new Vector2(1,0), 2, 2);
+            enemies = new List<Enemy>();
 
             player.pHealth = 3;
             for (int col = 0; col < map.GetLength(0); col++)
@@ -85,18 +86,6 @@ namespace Three_Thing_Game
                 enemies.Add(new Lurker(myMap.getFreeMonster(randMonsterPosition), player));
             }
 
-            for (int col = 0; col < map.GetLength(0); col++)
-            {
-                for (int row = 0; row < map.GetLength(1); row++)
-                {
-                    if (map[col, row] > 0)
-                    {
-                        mapSprites.Add(new Sprite(null, new Vector2(row, col), 1, 1));
-                    }
-                }
-            }
-
-            PhysicsManager.colliderMap = map;
             base.Initialize();
         }
 
@@ -113,6 +102,8 @@ namespace Three_Thing_Game
             playerTexture = Content.Load<Texture2D>("Professor");
             heartTexture = Content.Load<Texture2D>("heart");
             heartETexture = Content.Load<Texture2D>("heart_Empty");
+            flashTexture = Content.Load<Texture2D>("Flash");
+            coinTexture = Content.Load<Texture2D>("coin");
 
             foreach (Sprite sprite in mapSprites)
             {
@@ -120,7 +111,7 @@ namespace Three_Thing_Game
             }
 
             player.spriteTexture = playerTexture;
-            player.collideTexture = blockTexture;
+            player.collideTexture = flashTexture;
 
             player.collideWidth = 0.5f;
             player.collideHeight = 1.8f;
@@ -157,11 +148,8 @@ namespace Three_Thing_Game
 
             camera._pos = Vector2.Lerp(camera._pos, player.Position * 10f, deltaTime * 2f);
 
-            player.Update(deltaTime);
-
             for (int i = 0; i < enemies.Count; i++)
             {
-
                 Enemy e = enemies[i];
 
                 e.Update(deltaTime);
@@ -206,7 +194,7 @@ namespace Three_Thing_Game
 
             spriteBatch.Begin(SpriteSortMode.Immediate,
                       BlendState.NonPremultiplied,
-                      SamplerState.PointClamp,
+                      SamplerState.PointWrap,
                       null,
                       null,
                       null,

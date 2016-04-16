@@ -12,7 +12,6 @@ namespace Three_Thing_Game
 {
     class Lurker : Enemy
     {
-        Vector2 position;
         Player player;
 
         enum State
@@ -27,13 +26,12 @@ namespace Three_Thing_Game
 
         override public void EnemyAIUpdate(float deltaTime)
         {
-            float distanceFromPlayer = Vector2.Distance(position, player.Position);
+            Vector2 dir = player.Position - Position;
+            dir.Y = 0;
 
-            if (distanceFromPlayer < 5.0f)
+            if (dir.Length() < 5.0f)
             {
-                Vector2 dir = Vector2.Normalize(player.Position - this.Position);
-                dir.Y = 0;
-
+                dir.Normalize();
                 Velocity += dir * 2f * deltaTime;
             }
         }

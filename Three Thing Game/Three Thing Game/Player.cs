@@ -41,8 +41,7 @@ namespace Three_Thing_Game
             float actualX = (Position.X + width / 2f) - (collideWidth / 2f);
             float actualY = (Position.Y + (height - collideHeight));
 
-            spriteBatch.Draw(collideTexture, new Rectangle((int)(actualX * mScale), (int)(actualY * mScale), (int)(collideWidth * mScale), (int)(collideHeight * mScale)), sourceRectangle, Color.White, Rotation, Vector2.Zero, SpriteEffects.None, 0);
-
+            //spriteBatch.Draw(collideTexture, new Rectangle((int)(actualX * mScale), (int)(actualY * mScale), (int)(collideWidth * mScale), (int)(collideHeight * mScale)), sourceRectangle, Color.White, Rotation, Vector2.Zero, SpriteEffects.None, 0);
 
             if (!flipImage)
                 spriteBatch.Draw(spriteTexture, destinationRectangle, sourceRectangle, Color.White, Rotation, Vector2.Zero, SpriteEffects.None, 0);
@@ -97,7 +96,7 @@ namespace Three_Thing_Game
                     currentFrameTime = 1f;
                 }
 
-                currentFrameTime += deltaTime * 10;
+                currentFrameTime += deltaTime * 10f;
                 currentFrame = (int)currentFrameTime;
 
                 if (currentFrameTime >= 9)

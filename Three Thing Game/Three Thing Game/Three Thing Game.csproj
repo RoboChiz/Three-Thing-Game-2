@@ -73,6 +73,9 @@
     <Content Include="Content\coin.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\Flash.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\heart.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

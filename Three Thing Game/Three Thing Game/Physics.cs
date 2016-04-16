@@ -101,7 +101,8 @@ namespace RobsPhysics
                     {
                         if (playerAttack.Z != 0 && playerAttack.W != 0)
                         {
-                            if (Math.Abs(rb.Position.X - playerAttack.X) * 2 < (rb.collideWidth + playerAttack.Z) && Math.Abs(rb.Position.Y - playerAttack.Y) * 2 < (rb.collideHeight + playerAttack.W))
+                            if (playerAttack.X + playerAttack.Z > enemy.Position.X && playerAttack.X < enemy.Position.X + enemy.width
+                                && playerAttack.Y + playerAttack.W > enemy.Position.Y && playerAttack.Y < enemy.Position.Y + enemy.height)
                             {
                                 enemy.health -= 1;
                             }
@@ -164,7 +165,7 @@ namespace RobsPhysics
                                     }
 
                                     //Right Sides
-                                    if (actualY + playerHeight > yPos + 0.005f && actualY < yPos + 1 && actualX < xPos + 1 && actualX + playerWidth > xPos)
+                                    if (actualY + playerHeight > yPos && actualY < yPos + 1 && actualX < xPos + 1 && actualX + playerWidth > xPos)
                                     {
                                         //Console.WriteLine("Right Collision with " + xPos + "," + yPos);
                                         DoCollision(xPos, yPos, rb, lastPos, false, true);
@@ -174,7 +175,7 @@ namespace RobsPhysics
                                     }
 
                                     //Left Sides
-                                    if (actualY + playerHeight > yPos + 0.005f && actualY < yPos + 1 && actualX + playerWidth > xPos && actualX < xPos)
+                                    if (actualY + playerHeight > yPos && actualY < yPos + 1 && actualX + playerWidth > xPos && actualX < xPos)
                                     {
                                         //Console.WriteLine("Left Collision with " + xPos + "," + yPos);
                                         DoCollision(xPos, yPos, rb, lastPos, false, true);
