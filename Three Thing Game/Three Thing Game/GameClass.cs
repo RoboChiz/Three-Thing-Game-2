@@ -43,7 +43,7 @@ namespace Three_Thing_Game
         {
             // TODO: Add your initialization logic here
             Vector2 location;
-            camera = new Camera(new Vector2(315, 175), 3);
+            camera = new Camera(new Vector2(315, 175), 4);
 
             
 

@@ -115,9 +115,10 @@ namespace RobsPhysics
                                     bool pushX = false, pushY = false;
 
                                     float myX = rb.Position.X, myY = rb.Position.Y;
+                                    int myintX = (int)Math.Round(rb.Position.X + 0.5f);
 
                                     //Floor
-                                    if(myX > xPos - 0.5 && myX < xPos && myY + 1.9f >= yPos && myY + 1.9f <= yPos + 1)
+                                    if (myintX == xPos && myY + 1.9f >= yPos && myY + 1.9f <= yPos + 1)
                                     {
                                         collision = true;
                                         pushY = true;
@@ -127,7 +128,7 @@ namespace RobsPhysics
                                     }
 
                                     //Roof
-                                    if(myX > xPos - 0.5 && myX < xPos && myY <= yPos + 0.8 && myY >= yPos)
+                                    if (myintX == xPos && myY <= yPos + 0.8 && myY >= yPos)
                                     {
                                         collision = true;
                                         pushY = true;
