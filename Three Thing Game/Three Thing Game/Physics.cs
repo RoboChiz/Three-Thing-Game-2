@@ -93,23 +93,6 @@ namespace RobsPhysics
                     rb.Position += rb.Velocity * deltaTime;
 
                     #region Collisions
-                    //Do Map Collisions
-
-                    Vector2[] checkSpace = new Vector2[]
-                    {
-                        //Check Below Me
-                        new Vector2(0,2),
-                        new Vector2(1,2),
-                        //Check Above Me
-                        new Vector2(0,1),
-                        new Vector2(1,1),
-                        //Check Left Me
-                        new Vector2(-1,0),
-                        new Vector2(-1,1),
-                        //Check Right Me
-                        new Vector2(2,0),
-                        new Vector2(2,1),
-                    };
 
                     //Sort Player Stuff which dosen't Change
                     float playerWidth = 1.9f, playerHeight = 1.9f;
@@ -136,9 +119,6 @@ namespace RobsPhysics
                                 if (colliderMap[yPos, xPos] > 0)
                                 {
 
-                                    Vector4 player = new Vector4(actualX, actualY, playerWidth, playerHeight);
-                                    Vector4 box = new Vector4(xPos, yPos, 1, 1);
-
                                     bool collision = false, pushX = false, pushY = false;
 
                                     //Floor
@@ -149,6 +129,15 @@ namespace RobsPhysics
 
                                         person.isFalling = false;
                                         person.Velocity = new Vector2(rb.Velocity.X, 0);
+                                    }
+
+                                    //Roof
+                                    if (actualX + playerWidth >= xPos && actualX < xPos + 1 && actualY < yPos + 1 && actualY > yPos)
+                                    {
+                                        collision = true;
+                                        pushY = true;
+
+                                        Console.WriteLine("Roof Collision with " + xPos + "," + yPos);
                                     }
 
                                     //Right Sides
