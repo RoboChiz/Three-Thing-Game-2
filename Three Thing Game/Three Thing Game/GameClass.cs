@@ -61,6 +61,8 @@ namespace Three_Thing_Game
             player = new Player(new Vector2(1,0), 2, 2);
             enemies = new List<Enemy>();
 
+            enemies.Add(new Lurker(player, myMap.getFree()));
+
            for (int col = 0; col < map.GetLength(0); col++)
            {
                for (int row = 0; row < map.GetLength(1); row++)

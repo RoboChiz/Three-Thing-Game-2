@@ -14,15 +14,16 @@ namespace Three_Thing_Game
     {
         Vector2 position;
         Player player;
+
         enum State
         {
             Idling,
             Moving
         }
-        public Lurker(Player _player): base(new Vector2(0.0f, 0.0f), 2, 2)
+        public Lurker(Player _player, Vector2 _position) : base(new Vector2(0.0f, 0.0f), 2, 2)
         {
-            position = base.Position;
-            _player = player;
+            position = _position;
+            player = _player;
         }
 
         override public void EnemyAIUpdate()
