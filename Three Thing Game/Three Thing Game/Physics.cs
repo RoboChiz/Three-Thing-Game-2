@@ -145,8 +145,8 @@ namespace RobsPhysics
                                         actualX = (rb.Position.X + 1) - halfWidth;
                                         actualY = (rb.Position.Y + 1) - halfHeight;
 
-                                        person.isFalling = false;
-                                        person.Velocity = new Vector2(rb.Velocity.X, 0);
+                                        rb.isFalling = false;
+                                        rb.Velocity = new Vector2(rb.Velocity.X, 0);
 
                                         Console.WriteLine("Floor Collision with " + xPos + "," + yPos);
                                     }
@@ -231,6 +231,7 @@ namespace RobsPhysics
         public bool colliding;
         public RigidBody collidingWith;
         public float collideWidth, collideHeight;
+        public bool isFalling = false;
 
         public RigidBody(Texture2D textureVal, Vector2 pos, int widthVal, int heightVal, float mass, float maxSpeed)
             : base(textureVal, pos, widthVal, heightVal)

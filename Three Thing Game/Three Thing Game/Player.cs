@@ -20,7 +20,6 @@ namespace Three_Thing_Game
         private float playerSpeed = 200f, jumpForce = 450f, attackDistance = 0f, chargeSpeed = 2f;
         public float maxDistance = 3f;
         public bool flipImage;
-        public bool isFalling = false;
 
         public Player(Vector2 pos, int width, int height) : base(null, pos, width, height, 1, 12) { }
 

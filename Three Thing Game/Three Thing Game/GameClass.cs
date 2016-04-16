@@ -96,6 +96,14 @@ namespace Three_Thing_Game
                 sprite.spriteTexture = blockTexture;
             }
 
+            foreach(Enemy e in enemies) {
+                e.spriteTexture = blockTexture;
+                e.collideTexture = blockTexture;
+                e.collideWidth = 1f;
+                e.collideHeight = 1f;
+            }
+            
+
             player.spriteTexture = playerTexture;
             player.collideTexture = blockTexture;
 
