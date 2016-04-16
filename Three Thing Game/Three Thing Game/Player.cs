@@ -17,7 +17,8 @@ namespace Three_Thing_Game
 
         float currentFrameTime;
         int currentFrame = 0;
-        private float playerSpeed = 200f, jumpForce = 450f;
+        private float playerSpeed = 200f, jumpForce = 450f, attackDistance = 0f, chargeSpeed = 2f;
+        public float maxDistance = 3f;
         public bool flipImage;
         public bool isFalling = false;
 
@@ -102,6 +103,25 @@ namespace Three_Thing_Game
                 flipImage = true;
             if (hori > 0)
                 flipImage = false;
+
+            //Do Attack
+            bool attacking = false;
+            if (currentKeyboardState.IsKeyDown(Keys.Enter) || currentKeyboardState.IsKeyDown(Keys.Space))
+                attacking = true;
+
+            if (attacking)
+            {
+                if (attackDistance < 1)
+                    attackDistance = 1;
+                if (attackDistance > maxDistance)
+                    attackDistance = maxDistance;
+
+                attackDistance += deltaTime * chargeSpeed;
+            }
+            else if(attackDistance > 0)
+            {
+                attackDistance = 0;
+            }
 
         }
 

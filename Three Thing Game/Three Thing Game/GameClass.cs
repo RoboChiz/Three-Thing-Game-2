@@ -17,6 +17,7 @@ namespace Three_Thing_Game
 
         Camera camera;
         Player player;
+        List<Enemy> enemies;
 
         Texture2D blockTexture, playerTexture;
         int[,] map;
@@ -58,6 +59,7 @@ namespace Three_Thing_Game
             //map = myMap.Map;
 
             player = new Player(new Vector2(1,0), 2, 2);
+            enemies = new List<Enemy>();
 
            for (int col = 0; col < map.GetLength(0); col++)
            {
@@ -120,6 +122,16 @@ namespace Three_Thing_Game
 
             camera._pos = Vector2.Lerp(camera._pos, player.Position * 10f, deltaTime * 2f);
 
+            foreach(Enemy e in enemies)
+            {
+                e.Update(deltaTime);
+
+                if (e.health <= 0)
+                {
+                    enemies.Remove(e);
+                }
+            }
+
             player.Update(deltaTime);
           
             PhysicsManager.Step(deltaTime);
@@ -150,7 +162,12 @@ namespace Three_Thing_Game
                 sprite.Draw(spriteBatch);
             }
 
-            player.Draw(spriteBatch);
+            foreach (Enemy e in enemies)
+            {
+                e.Draw(spriteBatch);
+            }
+
+            player.Draw(spriteBatch);      
 
             spriteBatch.End();
 

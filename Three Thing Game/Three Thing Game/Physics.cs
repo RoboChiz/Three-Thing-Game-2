@@ -15,6 +15,8 @@ namespace RobsPhysics
     {
 
         public static List<RigidBody> objs = new List<RigidBody>();
+        public static Rectangle playerAttack;
+
         public static int[,] colliderMap; //Used for efficentcy
 
         public static void ResolveCollision(RigidBody A, RigidBody B)
@@ -91,6 +93,24 @@ namespace RobsPhysics
                     Vector2 lastPos = rb.Position;
 
                     rb.Position += rb.Velocity * deltaTime;
+
+                    //Do Player Damage
+                    Enemy enemy = rb as Enemy;
+                    if (enemy != null) //Must be enemy
+                    {
+                        if(playerAttack.Width != 0 && playerAttack.Height != 0)
+                        {
+                            if(Math.Abs(rb.Position.X - playerAttack.X) * 2 < (rb.collideWidth + playerAttack.Width) && Math.Abs(rb.Position.Y - playerAttack.Y) * 2 < (rb.collideHeight + playerAttack.Height))
+                            {
+                                enemy.health -= 1;
+                            }
+                        }
+
+                        if(enemy.health <= 0)
+                        {
+                            objs.Remove(enemy);
+                        }
+                    }
 
                     #region Collisions
 
@@ -244,7 +264,7 @@ namespace RobsPhysics
 
             Vector2 normal = thereCente - myCente;
 
-            if (normal.Length() < Width / 2)
+            if (normal.Length() < collideWidth / 2)
                 return true;
 
             return false;

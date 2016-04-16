@@ -20,6 +20,7 @@ namespace Three_Thing_Game
         private float moveSpeed = 200f;
         public bool flipImage;
         public bool isFalling = false;
+        public float health = 1f;
 
         public Enemy(Vector2 pos, int width, int height) : base(null, pos, width, height, 1, 12) { }
 
