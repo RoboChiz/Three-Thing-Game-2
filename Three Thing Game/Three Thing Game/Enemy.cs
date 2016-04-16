@@ -50,29 +50,7 @@ namespace Three_Thing_Game
 
             float hori = 0f;
 
-            EnemyAIUpdate(deltaTime);
-
-            Velocity = new Vector2(moveSpeed * hori * deltaTime, Velocity.Y);
-
-            if(hori != 0)
-            {
-                if (currentFrame == 0)
-                {
-                    currentFrame = 1;
-                    currentFrameTime = 1f;
-                }
-
-                currentFrameTime += deltaTime * 10;
-                currentFrame = (int)currentFrameTime;
-
-                if (currentFrameTime >= 9)
-                    currentFrameTime = 1;
-            }
-            else
-            {
-                currentFrame = 0;
-                currentFrameTime = 0f;
-            }
+            hori = EnemyAIUpdate(deltaTime);
 
             isFalling = true;
 
@@ -83,6 +61,6 @@ namespace Three_Thing_Game
 
         }
 
-        public abstract void EnemyAIUpdate(float deltaTime);
+        public abstract float EnemyAIUpdate(float deltaTime);
     }
 }

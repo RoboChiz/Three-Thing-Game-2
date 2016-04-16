@@ -60,12 +60,12 @@ namespace Three_Thing_Game
 
             myMap = new MapHandler();
 
-            //map = myMap.Map;
-            //player = new Player(myMap.getFree(), 2, 2);
+            map = myMap.Map;
+            player = new Player(myMap.getFree(), 2, 2);
 
-            player = new Player(new Vector2(1,0), 2, 2);
+            //player = new Player(new Vector2(1,0), 2, 2);
             enemies = new List<Enemy>();
-            enemies.Add(new Lurker(new Vector2(4,0), player));
+            //enemies.Add(new Lurker(new Vector2(4,0), player));
 
 
             player.pHealth = 3;
@@ -83,7 +83,7 @@ namespace Three_Thing_Game
             PhysicsManager.colliderMap = map;
 
             Random randMonsterPosition = new Random();
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 150; i++)
             {
                 enemies.Add(new Lurker(myMap.getFreeMonster(randMonsterPosition), player));
             }
@@ -106,7 +106,7 @@ namespace Three_Thing_Game
             heartETexture = Content.Load<Texture2D>("heart_Empty");
             flashTexture = Content.Load<Texture2D>("Flash");
             coinTexture = Content.Load<Texture2D>("coin");
-            enemyTexture = Content.Load<Texture2D>("slime");
+            enemyTexture = Content.Load<Texture2D>("coin");
 
             foreach (Sprite sprite in mapSprites)
             {

@@ -24,16 +24,20 @@ namespace Three_Thing_Game
             player = _player;
         }
 
-        override public void EnemyAIUpdate(float deltaTime)
+        override public float EnemyAIUpdate(float deltaTime)
         {
             Vector2 dir = player.Position - Position;
             dir.Y = 0;
 
+            Velocity = new Vector2(0,Velocity.Y);
+
             if (dir.Length() < 5.0f)
             {
                 dir.Normalize();
-                Velocity += dir * 2f * deltaTime;
+                Velocity += dir * 100f * deltaTime;
             }
+
+            return dir.X;
         }
 
     }
