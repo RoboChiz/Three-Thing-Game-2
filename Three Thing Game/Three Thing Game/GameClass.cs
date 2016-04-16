@@ -177,21 +177,7 @@ namespace Three_Thing_Game
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             var device = graphics.GraphicsDevice;
-            spriteBatch.Begin();
-            for (int i = 0; i < 3; i++)
-            {
-                if (player.pHealth >= (i + 1))
-                    hearts[i].spriteTexture = heartTexture;
-                else
-                    hearts[i].spriteTexture = heartETexture;
-
-                hearts[i].DrawNoRotCentre(spriteBatch);
-
-
-            }
-
-            spriteBatch.End();
-
+           
             spriteBatch.Begin(SpriteSortMode.Immediate,
                       BlendState.NonPremultiplied,
                       SamplerState.PointWrap,
@@ -212,6 +198,21 @@ namespace Three_Thing_Game
             }
 
             player.Draw(spriteBatch);
+
+            spriteBatch.End();
+
+            spriteBatch.Begin();
+            for (int i = 0; i < 3; i++)
+            {
+                if (player.pHealth >= (i + 1))
+                    hearts[i].spriteTexture = heartTexture;
+                else
+                    hearts[i].spriteTexture = heartETexture;
+
+                hearts[i].DrawNoRotCentre(spriteBatch);
+
+
+            }
 
             spriteBatch.End();
 
