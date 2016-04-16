@@ -42,10 +42,10 @@ namespace Three_Thing_Game
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            Vector2 location;
             camera = new Camera(new Vector2(315, 175), 3);
 
-            player = new Player(new Vector2(25,10), 2, 2);
+            
 
             //Load the Level
             map = new int[,] { 
@@ -58,7 +58,9 @@ namespace Three_Thing_Game
             mapSprites = new List<Sprite>();
 
             myMap = new MapHandler();
-
+            
+           //player = new Player(new Vector2(25, 10), 2, 2);
+            player = new Player(myMap.getFree(), 2, 2);
 
            for (int col = 0; col < myMap.Map.GetLength(0); col++)
            {
