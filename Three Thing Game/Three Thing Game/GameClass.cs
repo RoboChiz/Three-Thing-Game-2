@@ -21,6 +21,7 @@ namespace Three_Thing_Game
         Texture2D blockTexture, playerTexture;
         int[,] map;
         List<Sprite> mapSprites;
+        MapHandler myMap;
 
         public GameClass()
         {
@@ -42,9 +43,9 @@ namespace Three_Thing_Game
         {
             // TODO: Add your initialization logic here
 
-            camera = new Camera(new Vector2(50, 0), 5);
+            camera = new Camera(new Vector2(315, 175), 3);
 
-            player = new Player(new Vector2(1, 0), 2, 2);
+            player = new Player(new Vector2(25,10), 2, 2);
 
             //Load the Level
             map = new int[,] { 
@@ -56,18 +57,21 @@ namespace Three_Thing_Game
 
             mapSprites = new List<Sprite>();
 
-            for (int col = 0; col < map.GetLength(0); col++)
-            {
-                for (int row = 0 ; row < map.GetLength(1); row++)
-                {
-                    if (map[col, row] > 0)
-                    {
-                        mapSprites.Add(new Sprite(null, new Vector2(row, col), 1, 1));
-                    }
-                }
-            }
+            myMap = new MapHandler();
 
-            PhysicsManager.colliderMap = map;
+
+           for (int col = 0; col < myMap.Map.GetLength(0); col++)
+           {
+               for (int row = 0; row < myMap.Map.GetLength(1); row++)
+               {
+                   if (myMap.Map[col, row] > 0)
+                   {
+                       mapSprites.Add(new Sprite(null, new Vector2(row, col), 1, 1));
+                   }
+               }
+           }
+
+           PhysicsManager.colliderMap = myMap.Map;
 
             base.Initialize();
         }
@@ -114,7 +118,7 @@ namespace Three_Thing_Game
             camera._pos = Vector2.Lerp(camera._pos, player.Position * 10f, deltaTime * 2f);
 
             player.Update(deltaTime);
-
+          
             PhysicsManager.Step(deltaTime);
 
             base.Update(gameTime);
