@@ -57,7 +57,6 @@ namespace Three_Thing_Game
             myMap = new MapHandler();
             //map = myMap.Map;
 
-           //player = new Player(new Vector2(25, 10), 2, 2);
             player = new Player(new Vector2(1,0), 2, 2);
 
            for (int col = 0; col < map.GetLength(0); col++)
@@ -96,8 +95,8 @@ namespace Three_Thing_Game
             player.spriteTexture = playerTexture;
             player.collideTexture = blockTexture;
 
-            player.collideWidth = 1f;
-            player.collideHeight = 1.7f;
+            player.collideWidth = 0.5f;
+            player.collideHeight = 1.8f;
         }
 
         /// <summary>

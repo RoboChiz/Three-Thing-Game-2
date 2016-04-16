@@ -10,18 +10,18 @@ using RobsSprite;
 
 namespace Three_Thing_Game
 {
-    class Player : RigidBody
+    abstract class Enemy : RigidBody
     {
 
         public Texture2D collideTexture;
 
         float currentFrameTime;
         int currentFrame = 0;
-        private float playerSpeed = 200f, jumpForce = 450f;
+        private float moveSpeed = 200f;
         public bool flipImage;
         public bool isFalling = false;
 
-        public Player(Vector2 pos, int width, int height) : base(null, pos, width, height, 1, 12) { }
+        public Enemy(Vector2 pos, int width, int height) : base(null, pos, width, height, 1, 12) { }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
@@ -49,29 +49,11 @@ namespace Three_Thing_Game
         public void Update(float deltaTime)
         {
 
-            var currentKeyboardState = Keyboard.GetState();
-            var currentGamepadState = GamePad.GetState(PlayerIndex.One);
+            float hori = 0f;
 
-            float hori = 0;
-            bool verti = false;
+            EnemyAIUpdate();
 
-            //Left/Right
-            if (currentKeyboardState.IsKeyDown(Keys.A))
-                hori = -1;
-            if (currentKeyboardState.IsKeyDown(Keys.D))
-                hori = 1;
-            if (currentKeyboardState.IsKeyDown(Keys.Left))
-                hori = -1;
-            if (currentKeyboardState.IsKeyDown(Keys.Right))
-                hori = 1;
-
-            //Jump
-            if (currentKeyboardState.IsKeyDown(Keys.W))
-                verti = true;
-            if (currentKeyboardState.IsKeyDown(Keys.Up))
-                verti = true;
-
-            Velocity = new Vector2(playerSpeed * hori * deltaTime, Velocity.Y);
+            Velocity = new Vector2(moveSpeed * hori * deltaTime, Velocity.Y);
 
             if(hori != 0)
             {
@@ -93,9 +75,6 @@ namespace Three_Thing_Game
                 currentFrameTime = 0f;
             }
 
-            if(!isFalling && verti)
-                AddForce(new Vector2(0,-jumpForce));
-
             isFalling = true;
 
             if (hori < 0)
@@ -105,5 +84,6 @@ namespace Three_Thing_Game
 
         }
 
+        public abstract void EnemyAIUpdate();
     }
 }
