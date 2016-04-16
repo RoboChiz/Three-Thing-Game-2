@@ -23,7 +23,7 @@ namespace Three_Thing_Game
             PercentAreWalls = 50;
 
             RandomFillMap();
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < 4; i++)
             {
                 MakeCaverns();
             }

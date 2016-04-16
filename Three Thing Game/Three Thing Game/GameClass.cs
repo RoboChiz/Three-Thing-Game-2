@@ -20,7 +20,7 @@ namespace Three_Thing_Game
         Player player;
         List<Enemy> enemies;
 
-        Texture2D blockTexture, playerTexture, heartTexture ,heartETexture, flashTexture, coinTexture;
+        Texture2D blockTexture, playerTexture, heartTexture ,heartETexture, flashTexture, coinTexture, enemyTexture;
         int[,] map;
         List<Sprite> mapSprites;
 
@@ -51,8 +51,8 @@ namespace Three_Thing_Game
             //Load the Level
             map = new int[,] { 
             { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 }, 
-            { 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1 }, 
-            { 1, 0, 0, 2, 3, 0, 0, 0, 1, 0, 1 }, 
+            { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 }, 
+            { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 }, 
             { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 }, 
             { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }};
 
@@ -60,11 +60,13 @@ namespace Three_Thing_Game
 
             myMap = new MapHandler();
 
-            map = myMap.Map;
-            player = new Player(myMap.getFree(), 2, 2);
+            //map = myMap.Map;
+            //player = new Player(myMap.getFree(), 2, 2);
 
-            //player = new Player(new Vector2(1,0), 2, 2);
+            player = new Player(new Vector2(1,0), 2, 2);
             enemies = new List<Enemy>();
+            enemies.Add(new Lurker(new Vector2(4,0), player));
+
 
             player.pHealth = 3;
             for (int col = 0; col < map.GetLength(0); col++)
@@ -81,7 +83,7 @@ namespace Three_Thing_Game
             PhysicsManager.colliderMap = map;
 
             Random randMonsterPosition = new Random();
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < 3; i++)
             {
                 enemies.Add(new Lurker(myMap.getFreeMonster(randMonsterPosition), player));
             }
@@ -104,6 +106,7 @@ namespace Three_Thing_Game
             heartETexture = Content.Load<Texture2D>("heart_Empty");
             flashTexture = Content.Load<Texture2D>("Flash");
             coinTexture = Content.Load<Texture2D>("coin");
+            enemyTexture = Content.Load<Texture2D>("slime");
 
             foreach (Sprite sprite in mapSprites)
             {
@@ -118,7 +121,7 @@ namespace Three_Thing_Game
 
             foreach (Enemy enemy in enemies)
             {
-                enemy.spriteTexture = blockTexture;
+                enemy.spriteTexture = enemyTexture;
             }
 
             hearts = new List<Sprite>();

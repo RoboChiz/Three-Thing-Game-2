@@ -76,6 +76,9 @@ namespace RobsPhysics
                         rb.colliding = true;
                         rb.collidingWith = rbo;
                         ResolveCollision(rb, rbo);
+
+                        if (person != null)
+                            person.health -= 1;
                     }
                 }
 
@@ -142,14 +145,9 @@ namespace RobsPhysics
                                 if (colliderMap[yPos, xPos] > 0)
                                 {
 
-                                    bool floorCol = false;
-                                    Vector2 lastActual = new Vector2(actualX,actualY);
-
                                     //Floor
                                     if (actualX + playerWidth > xPos && actualX < xPos + 1 && actualY + playerHeight >= yPos && actualY + playerHeight <= yPos + 1)
                                     {
-
-                                        floorCol = true;
 
                                         DoCollision(xPos, yPos, rb, lastPos, true, false);
                                         actualX = (rb.Position.X + 1) - halfWidth;
@@ -163,9 +161,6 @@ namespace RobsPhysics
                                     //Roof
                                     if (actualX + playerWidth > xPos && actualX < xPos + 1 && actualY < yPos + 1 && actualY > yPos)
                                     {
-
-                                        floorCol = true;
-
                                         DoCollision(xPos, yPos, rb, lastPos, true, false);
                                         actualX = (rb.Position.X + 1) - halfWidth;
                                         actualY = (rb.Position.Y + 1) - halfHeight;
@@ -174,11 +169,6 @@ namespace RobsPhysics
                                     //Right Sides
                                     if (actualY + playerHeight > yPos && actualY < yPos + 1 && actualX < xPos + 1 && actualX + playerWidth > xPos)
                                     {
-
-                                        if (floorCol)
-                                        {
-                                            rb.isFalling = false;
-                                        }
 
                                         DoCollision(xPos, yPos, rb, lastPos, false, true);
                                         actualX = (rb.Position.X + 1) - halfWidth;
@@ -189,12 +179,6 @@ namespace RobsPhysics
                                     //Left Sides
                                     if (actualY + playerHeight > yPos && actualY < yPos + 1 && actualX + playerWidth > xPos && actualX < xPos)
                                     {
-
-                                        if (floorCol)
-                                        {
-                                            rb.isFalling = false;
-                                        }
-
                                         DoCollision(xPos, yPos, rb, lastPos, false, true);
                                         actualX = (rb.Position.X + 1) - halfWidth;
                                         actualY = (rb.Position.Y + 1) - halfHeight;
@@ -285,7 +269,7 @@ namespace RobsPhysics
 
             Vector2 normal = thereCente - myCente;
 
-            if (normal.Length() < collideWidth / 2)
+            if (normal.Length() < 1)
                 return true;
 
             return false;
