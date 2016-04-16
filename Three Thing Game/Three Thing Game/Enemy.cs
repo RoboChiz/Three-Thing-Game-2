@@ -38,8 +38,6 @@ namespace Three_Thing_Game
             float actualX = (Position.X + width / 2f) - (collideWidth / 2f);
             float actualY = (Position.Y + (height - collideHeight));
 
-            spriteBatch.Draw(collideTexture, new Rectangle((int)(actualX * mScale), (int)(actualY * mScale), (int)(collideWidth * mScale), (int)(collideHeight * mScale)), sourceRectangle, Color.White, Rotation, Vector2.Zero, SpriteEffects.None, 0);
-
             if(!flipImage)
                 spriteBatch.Draw(spriteTexture, destinationRectangle, sourceRectangle, Color.White, Rotation, Vector2.Zero, SpriteEffects.None, 0);
             else
@@ -52,7 +50,7 @@ namespace Three_Thing_Game
 
             float hori = 0f;
 
-            EnemyAIUpdate();
+            EnemyAIUpdate(deltaTime);
 
             Velocity = new Vector2(moveSpeed * hori * deltaTime, Velocity.Y);
 
@@ -85,6 +83,6 @@ namespace Three_Thing_Game
 
         }
 
-        public abstract void EnemyAIUpdate();
+        public abstract void EnemyAIUpdate(float deltaTime);
     }
 }

@@ -57,10 +57,12 @@ namespace RobsPhysics
         }
 
         public static void Step(float deltaTime)
-        {           
+        {
 
-            foreach (RigidBody rb in objs)
+            for (int i = 0; i < objs.Count; i++)
             {
+
+                RigidBody rb = objs[i];
 
                 Player person = rb as Player;
                 //Add Gravity
@@ -98,17 +100,18 @@ namespace RobsPhysics
                     Enemy enemy = rb as Enemy;
                     if (enemy != null) //Must be enemy
                     {
-                        if(playerAttack.Z != 0 && playerAttack.W != 0)
+                        if (playerAttack.Z != 0 && playerAttack.W != 0)
                         {
-                            if(Math.Abs(rb.Position.X - playerAttack.X) * 2 < (rb.collideWidth + playerAttack.Z) && Math.Abs(rb.Position.Y - playerAttack.Y) * 2 < (rb.collideHeight + playerAttack.W))
+                            if (Math.Abs(rb.Position.X - playerAttack.X) * 2 < (rb.collideWidth + playerAttack.Z) && Math.Abs(rb.Position.Y - playerAttack.Y) * 2 < (rb.collideHeight + playerAttack.W))
                             {
                                 enemy.health -= 1;
                             }
                         }
 
-                        if(enemy.health <= 0)
+                        if (enemy.health <= 0)
                         {
                             objs.Remove(enemy);
+                            continue;
                         }
                     }
 
@@ -131,13 +134,13 @@ namespace RobsPhysics
                             int yPos = (int)actualY + y;
 
                             int width = colliderMap.GetLength(1);
-                            int height = colliderMap.GetLength(0);                           
+                            int height = colliderMap.GetLength(0);
 
                             //Check that block is inside of Check Range
                             if (xPos >= 0 && xPos < width && yPos >= 0 && yPos < height)
                             {
                                 if (colliderMap[yPos, xPos] > 0)
-                                {                                 
+                                {
                                     //Floor
                                     if (actualX + playerWidth > xPos && actualX < xPos + 1 && actualY + playerHeight >= yPos && actualY + playerHeight <= yPos + 1)
                                     {

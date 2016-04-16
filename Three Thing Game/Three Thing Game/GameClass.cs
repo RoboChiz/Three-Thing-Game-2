@@ -23,7 +23,7 @@ namespace Three_Thing_Game
         Texture2D blockTexture, playerTexture, heartTexture ,heartETexture;
         int[,] map;
         List<Sprite> mapSprites;
-        Sprite[] hearts;
+        List<Sprite> hearts;
         MapHandler myMap;
 
         public GameClass()
@@ -61,8 +61,10 @@ namespace Three_Thing_Game
             
             map = myMap.Map;
             player = new Player(myMap.getFree(), 2, 2);
-            
+            enemies = new List<Enemy>();
+
             //player = new Player(new Vector2(1, 0), 2, 2);
+            
             player.pHealth = 3;
             for (int col = 0; col < map.GetLength(0); col++)
             {
@@ -77,6 +79,20 @@ namespace Three_Thing_Game
 
             PhysicsManager.colliderMap = map;
 
+			enemies.Add(new Lurker(new Vector2(4,0),player));
+
+           for (int col = 0; col < map.GetLength(0); col++)
+           {
+               for (int row = 0; row < map.GetLength(1); row++)
+               {
+                   if (map[col, row] > 0)
+                   {
+                       mapSprites.Add(new Sprite(null, new Vector2(row, col), 1, 1));
+                   }
+               }
+           }
+
+           PhysicsManager.colliderMap = map;
             base.Initialize();
         }
 
@@ -104,6 +120,17 @@ namespace Three_Thing_Game
 
             player.collideWidth = 0.5f;
             player.collideHeight = 1.8f;
+
+            foreach (Enemy enemy in enemies)
+            {
+                enemy.spriteTexture = blockTexture;
+            }
+
+            hearts = new List<Sprite>();
+            for(int i = 0; i < player.health; i++)
+            {
+                hearts.Add(new Sprite(heartTexture, new Vector2(20 + (40 * i),30),30,30));
+            }
         }
 
         /// <summary>
@@ -128,6 +155,22 @@ namespace Three_Thing_Game
             
             player.Update(deltaTime);
 
+            for (int i = 0; i < enemies.Count; i++ )
+            {
+
+                Enemy e = enemies[i];
+
+                e.Update(deltaTime);
+
+                if (e.health <= 0)
+                {
+                    enemies.Remove(e);
+                    continue;
+                }
+            }
+
+            player.Update(deltaTime);
+          
             PhysicsManager.Step(deltaTime);
 
             base.Update(gameTime);
