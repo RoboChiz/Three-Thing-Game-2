@@ -83,7 +83,7 @@ namespace Three_Thing_Game
             {
                 if (main)
                 {
-                    option -= 1;
+                    option -= 2;
                     if (option <= -1) option = 2;
                 }
                 else
@@ -95,7 +95,7 @@ namespace Three_Thing_Game
             {
                 if (main)
                 {
-                    option += 1;
+                    option += 2;
                     if (option >= 3) option = 0;
                 }
                 else
@@ -108,11 +108,10 @@ namespace Three_Thing_Game
                 if (main)
                 {
                     if (option == 0)
-                    {
-                        // TODO - start game
+                    {                        
                         using (var game = new GameClass())
                             game.Run();
-                        Exit();
+                        //Exit();
                     }
                     else if (option == 1)
                     {
@@ -158,7 +157,7 @@ namespace Three_Thing_Game
             title.DrawNoRot(spriteBatch);
 
             start.DrawNoRot(spriteBatch);
-            options.DrawNoRot(spriteBatch);
+            //options.DrawNoRot(spriteBatch);
             quit.DrawNoRot(spriteBatch);
 
 
