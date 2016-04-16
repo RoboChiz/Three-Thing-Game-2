@@ -52,8 +52,8 @@ namespace Three_Thing_Game
         {
             while (true)
             {
-                int y = random.Next(0, 148);
-                int x = random.Next(0, 148);
+                int y = random.Next(5, 148);
+                int x = random.Next(5, 148);
                 if (Map[y + 1, x] == 0 && Map[y + 2, x] == 0 && Map[y - 1, x] == 1 && Map[y, x - 1] == 0 && Map[y, x + 1] == 0)
                 {
                     Console.WriteLine("Found: "+ x + " " + y);
